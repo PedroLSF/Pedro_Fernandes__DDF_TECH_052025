@@ -10,17 +10,17 @@ import { UserEntity } from './user';
 
 export class InputUpdateUser implements Partial<UserEntity> {
   @ApiProperty({ description: 'Name', example: 'User name' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   name: string;
 
   @ApiProperty({ description: 'Email', example: 'userEmail@example.com' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   email: string;
 
   @ApiProperty({ description: 'Email', example: 'userEmail@example.com' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   password: string;
 

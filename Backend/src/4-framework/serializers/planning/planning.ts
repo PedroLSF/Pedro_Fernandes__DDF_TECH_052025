@@ -9,7 +9,7 @@ export class PlanningEntity
 {
   id: string;
   title: string;
-  text: string;
+  theme: string;
 
   user_id: string;
   user: IUser;

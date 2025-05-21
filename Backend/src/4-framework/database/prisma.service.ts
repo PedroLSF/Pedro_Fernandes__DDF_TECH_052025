@@ -13,7 +13,7 @@ export class PrismaService extends PrismaClient {
     let prismaOptions: any = {
       log: [{ level: 'query', emit: 'event' }],
     };
-    if (isLocal() && !hideLogs) {
+    if (!hideLogs) {
       prismaOptions = {
         log: [
           { level: 'query', emit: 'event' },
@@ -26,7 +26,7 @@ export class PrismaService extends PrismaClient {
     super(prismaOptions);
     this.logger.debug('new instance');
 
-    if (isLocal() && !hideLogs) {
+    if (!hideLogs) {
       this.$on('query' as never, (e: any) =>
         this.logger.debug(e?.query ?? e?.message),
       );

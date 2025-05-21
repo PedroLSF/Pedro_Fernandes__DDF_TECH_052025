@@ -14,10 +14,13 @@ export class InputCreatePlanning implements Partial<IPlanning> {
   @IsString()
   title: string;
 
-  @ApiProperty({ description: 'Text', example: 'O Ciclo do...' })
+  @ApiProperty({
+    description: 'Theme',
+    example: 'Valorização da Identidade Africana',
+  })
   @IsNotEmpty()
   @IsString()
-  text: string;
+  theme: string;
 
   @ApiProperty({ description: 'user_id', example: 'user_123' })
   @IsNotEmpty()

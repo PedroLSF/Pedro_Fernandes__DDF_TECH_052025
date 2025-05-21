@@ -13,19 +13,15 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { right } from '@shared/either';
 import { sendUseCaseHttpResponse } from '@utils/response';
 import { Request, Response } from 'express';
-import { plainToInstance } from 'class-transformer';
-import { UserEntity } from '@framework/serializers/user/user';
 import { InputAuth } from '@framework/serializers/auth/auth';
-import { JwtService } from '@framework/services/jwtService';
 import { AuthenticateUserUseCase } from '@business/useCases/auth/authenticateUserUseCase';
 
 @ApiTags('Auth')
 @Controller('/auth')
-export class UserController {
-  private readonly logger: Logger = new Logger(UserController.name, {
+export class AuthController {
+  private readonly logger: Logger = new Logger(AuthController.name, {
     timestamp: true,
   });
 

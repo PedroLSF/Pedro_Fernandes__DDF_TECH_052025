@@ -17,10 +17,21 @@ export type OutputUpdateUserRepositoryDto = Either<IError, IUser>;
 export type InputListUserRepositoryDto = {
   take: number;
   skip: number;
+  filter?: Partial<Record<keyof IUser, any>> & {
+    start_date?: string | Date;
+    end_date?: string | Date;
+  };
+  order?: Partial<Record<keyof IUser, 'desc' | 'asc'>>;
 };
 export type OutputListUserRepositoryDto = Either<IError, IUser[]>;
 
 // count
+export type InputCountUserRepositoryDto = {
+  filter?: Partial<Record<keyof IUser, any>> & {
+    start_date?: string | Date;
+    end_date?: string | Date;
+  };
+};
 export type OutputCountUserRepositoryDto = Either<IError, number>;
 
 // findBy
@@ -41,7 +52,9 @@ export interface IUserRepository {
   list: (
     input: InputListUserRepositoryDto,
   ) => Promise<OutputListUserRepositoryDto>;
-  count: () => Promise<OutputCountUserRepositoryDto>;
+  count: (
+    input: InputCountUserRepositoryDto,
+  ) => Promise<OutputCountUserRepositoryDto>;
   findBy: (
     input: InputFindByUserRepositoryDto,
   ) => Promise<OutputFindByUserRepositoryDto>;

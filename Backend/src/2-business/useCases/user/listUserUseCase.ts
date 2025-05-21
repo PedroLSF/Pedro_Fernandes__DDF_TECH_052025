@@ -32,7 +32,7 @@ export class ListUserUseCase
 
   async execute(input: InputListUserDto): Promise<OutputListUserDto> {
     const [countOutput, listOutput] = await Promise.all([
-      this.userRepository.count(),
+      this.userRepository.count(input),
       this.userRepository.list(input),
     ]);
 

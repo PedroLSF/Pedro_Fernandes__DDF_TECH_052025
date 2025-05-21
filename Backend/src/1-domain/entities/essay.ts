@@ -5,10 +5,22 @@ export enum EssayStatusType {
   Reviewed = 'Reviewed',
 }
 
+export type EssayPerThemeItem = {
+  theme: string;
+  count: number;
+};
+
+export type EssayPerMonthItem = {
+  month: string;
+  count: number;
+};
+
 export interface IEssay {
   id: string;
   title: string;
   text: string;
+  theme: string;
+  note?: number | null;
   status: EssayStatusType;
 
   user_id: string;
@@ -27,6 +39,8 @@ export class EssayEntity implements IEssay {
   id: string;
   title: string;
   text: string;
+  theme: string;
+  note?: number | null;
   status: EssayStatusType;
 
   user_id: string;

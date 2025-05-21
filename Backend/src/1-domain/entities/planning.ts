@@ -4,7 +4,7 @@ import { IUser } from './user';
 export interface IPlanning {
   id: string;
   title: string;
-  text: string;
+  theme: string;
 
   user_id: string;
   user: IUser;
@@ -24,7 +24,7 @@ export interface InputPlanning
 export class PlanningEntity implements IPlanning {
   id: string;
   title: string;
-  text: string;
+  theme: string;
 
   user_id: string;
   user: IUser;

@@ -49,9 +49,23 @@ export const essayUpdateErrorr: IError = {
   message: 'Houve um erro ao atualizar redação.',
 };
 
-export const essayDeleteErrorr: IError = {
+export const essayDeleteError: IError = {
   httpCode: 500,
   code: 'ESA-008',
   shortMessage: 'essayDeleteErrorr',
   message: 'Houve um erro ao excluir redações.',
+};
+
+export const getEssayByMonthError: IError = {
+  httpCode: 500,
+  code: 'ESA-009',
+  shortMessage: 'getEssayByMonthError',
+  message: 'Houve um erro ao obter Redações por mês.',
+};
+
+export const getEssayByThemeError: IError = {
+  httpCode: 500,
+  code: 'ESA-010',
+  shortMessage: 'getEssayByThemeError',
+  message: 'Houve um erro ao obter Redações por tema.',
 };

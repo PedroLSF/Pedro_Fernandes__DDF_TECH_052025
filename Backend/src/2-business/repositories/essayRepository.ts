@@ -1,6 +1,11 @@
 import { Either } from '@shared/either';
 import { IError } from '@shared/error';
-import { InputEssay, IEssay } from '@domain/entities/essay';
+import {
+  InputEssay,
+  IEssay,
+  EssayPerMonthItem,
+  EssayPerThemeItem,
+} from '@domain/entities/essay';
 
 // create
 export type InputCreateEssayRepositoryDto = InputEssay;
@@ -45,6 +50,17 @@ export type OutputFindByEssayRepositoryDto = Either<IError, IEssay>;
 export type InputDeleteEssayRepositoryDto = { id: string };
 export type OutputDeleteEssayRepositoryDto = Either<IError, boolean>;
 
+//getEssaysPerMonth
+export type OutputEssayPerMonthRepositoryDto = Either<
+  IError,
+  EssayPerMonthItem[]
+>;
+
+//getEssaysPerTheme
+export type OutputEssayPerThemeRepositoryDto = Either<
+  IError,
+  EssayPerThemeItem[]
+>;
 export interface IEssayRepository {
   create: (
     input: InputCreateEssayRepositoryDto,
@@ -64,6 +80,8 @@ export interface IEssayRepository {
   delete: (
     input: InputDeleteEssayRepositoryDto,
   ) => Promise<OutputDeleteEssayRepositoryDto>;
+  getEssaysPerMonth: () => Promise<OutputEssayPerMonthRepositoryDto>;
+  getEssaysPerTheme: () => Promise<OutputEssayPerThemeRepositoryDto>;
 }
 
 export const IEssayRepositoryToken = Symbol('IEssayRepository');

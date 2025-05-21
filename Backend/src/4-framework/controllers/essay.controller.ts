@@ -35,6 +35,8 @@ import { InputCreateEssay } from '@framework/serializers/essay/create';
 import { InputUpdateEssay } from '@framework/serializers/essay/update';
 import { IEssay } from '@domain/entities/essay';
 import { AuthGuard } from '@nestjs/passport';
+import { GetEssaysPerMonthUseCase } from '@business/useCases/essay/getEssaysPerMonthUseCase';
+import { GetEssaysPerThemeUseCase } from '@business/useCases/essay/getEssaysPerThemeUseCase';
 
 @ApiTags('Essay')
 @Controller('/essay')
@@ -49,8 +51,44 @@ export class EssayController {
     private readonly createEssayUseCase: CreateEssayUseCase,
     private readonly deleteEssayUseCase: DeleteEssayUseCase,
     private readonly updateEssayUseCase: UpdateEssayUseCase,
+    private readonly getEssaysPerMonthUseCase: GetEssaysPerMonthUseCase,
+    private readonly getEssaysPerThemeUseCase: GetEssaysPerThemeUseCase,
   ) {
     this.logger.debug('new instance');
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @Get('/essay-per-month')
+  @ApiOperation({
+    description: 'Route to get essay per month',
+  })
+  async getEssayPerMonth(@Req() req: Request, @Res() res: Response) {
+    const essay = await this.getEssaysPerMonthUseCase.execute();
+
+    return sendUseCaseHttpResponse({
+      req,
+      res,
+      resource: essay,
+      loggerInstance: this.logger,
+    });
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @Get('/essay-per-theme')
+  @ApiOperation({
+    description: 'Route to get essay per theme',
+  })
+  async getEssayPerTheme(@Req() req: Request, @Res() res: Response) {
+    const essay = await this.getEssaysPerThemeUseCase.execute();
+
+    return sendUseCaseHttpResponse({
+      req,
+      res,
+      resource: essay,
+      loggerInstance: this.logger,
+    });
   }
 
   @UseGuards(AuthGuard('jwt'))

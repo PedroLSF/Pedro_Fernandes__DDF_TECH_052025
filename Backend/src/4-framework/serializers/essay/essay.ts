@@ -6,6 +6,8 @@ export class EssayEntity extends Entity<EssayEntity> implements IEssay {
   id: string;
   title: string;
   text: string;
+  theme: string;
+  note?: number | null;
 
   user_id: string;
   user: IUser;

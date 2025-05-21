@@ -24,7 +24,7 @@ model User {
   email     String   @unique
   password  String
   phone     String?
-  biography String?
+  biography String?  @db.LongText
   active    Boolean? @default(true)
 
   is_master Boolean    @default(false)
@@ -41,7 +41,9 @@ model User {
 model Essay {
   id    String @id @default(cuid())
   title String
-  text  String
+  text  String @db.LongText
+  theme String @db.LongText
+  note  Int?
 
   user_id String
   user    User   @relation(fields: [user_id], references: [id])
@@ -58,7 +60,7 @@ model Essay {
 model Planning {
   id    String @id @default(cuid())
   title String
-  text  String
+  theme String @db.LongText
 
   user_id String?
   user    User?   @relation(fields: [user_id], references: [id])

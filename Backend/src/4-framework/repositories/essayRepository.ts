@@ -13,6 +13,8 @@ import {
   OutputListEssayRepositoryDto,
   OutputUpdateEssayRepositoryDto,
   InputCountEssayRepositoryDto,
+  OutputEssayPerMonthRepositoryDto,
+  OutputEssayPerThemeRepositoryDto,
 } from '@business/repositories/essayRepository';
 import { PrismaService } from '@framework/database/prisma.service';
 import { handleErrorLog } from '@shared/error';
@@ -20,14 +22,16 @@ import { left, right } from '@shared/either';
 import {
   essayCountError,
   essayCreateError,
-  essayDeleteErrorr,
+  essayDeleteError,
   essayFindByError,
   essayListError,
   essayNotFoundError,
   essayUpdateErrorr,
+  getEssayByMonthError,
+  getEssayByThemeError,
 } from '@business/errors/essay';
 import { plainToInstance } from 'class-transformer';
-import { IEssay, EssayEntity } from '@domain/entities/essay';
+import { IEssay, EssayEntity, EssayPerMonthItem } from '@domain/entities/essay';
 import { DEFAULT_PAGE_SIZE } from '@shared/pagination';
 import { Prisma } from '@prisma/client';
 import { generateId, IdPrefixes } from '@utils/id';
@@ -83,6 +87,7 @@ export class EssayRepository implements IEssayRepository {
           where: {
             deleted_at: null,
             ...filter,
+            ...(input.filter.user_id ? { user_id: input.filter.user_id } : {}),
           },
         }),
       );
@@ -138,7 +143,55 @@ export class EssayRepository implements IEssayRepository {
       );
     } catch (error) {
       handleErrorLog(error, this.logger);
-      return left(essayDeleteErrorr);
+      return left(essayDeleteError);
+    }
+  }
+
+  async getEssaysPerMonth(): Promise<OutputEssayPerMonthRepositoryDto> {
+    try {
+      const result = await this.prismaService.$queryRaw<
+        { month: string; count: bigint }[]
+      >`
+      SELECT
+        DATE_FORMAT(created_at, '%Y-%m') AS month,
+        COUNT(*) AS count
+      FROM essays
+      GROUP BY month
+      ORDER BY month;
+    `;
+
+      const formatted = result.map((item) => ({
+        ...item,
+        count: Number(item.count),
+      }));
+
+      return right(formatted);
+    } catch (error) {
+      return left(getEssayByMonthError);
+    }
+  }
+
+  async getEssaysPerTheme(): Promise<OutputEssayPerThemeRepositoryDto> {
+    try {
+      const result = await this.prismaService.$queryRaw<
+        { theme: string; count: bigint }[]
+      >`
+      SELECT
+        theme,
+        COUNT(*) AS count
+      FROM essays
+      GROUP BY theme
+      ORDER BY count DESC;
+    `;
+
+      const formatted = result.map((item) => ({
+        theme: item.theme,
+        count: Number(item.count),
+      }));
+
+      return right(formatted);
+    } catch (error) {
+      return left(getEssayByThemeError);
     }
   }
 
@@ -203,14 +256,10 @@ export class EssayRepository implements IEssayRepository {
         skip: input.skip || 0,
         where: {
           ...filter,
+          ...(input.filter.user_id ? { user_id: input.filter.user_id } : {}),
         },
         include: {
           user: true,
-        },
-        orderBy: orderBy({
-          order: input.order ?? {},
-        }) ?? {
-          created_at: 'desc',
         },
       });
       return right(plainToInstance(EssayEntity, essays) as IEssay[]);
@@ -238,7 +287,13 @@ export class EssayRepository implements IEssayRepository {
             where: {
               id: input.id,
             },
-            data: input.data,
+            data: {
+              title: input.data.title,
+              text: input.data.text,
+              theme: input.data.theme,
+              note: input.data.note ?? null,
+              status: input.data.status,
+            },
           }),
         ),
       );

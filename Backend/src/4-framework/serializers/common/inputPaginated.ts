@@ -1,5 +1,5 @@
 import { IsInt, IsObject, IsOptional, Max, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class InputPaginated<T extends object> {
@@ -24,6 +24,16 @@ export class InputPaginated<T extends object> {
     example: { name: 'filter' },
   })
   @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+    return value;
+  })
   filter: any;
 
   @ApiProperty({
@@ -31,5 +41,15 @@ export class InputPaginated<T extends object> {
   })
   @IsObject()
   @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+    return value;
+  })
   order?: Partial<Record<keyof T, 'desc' | 'asc'>>;
 }

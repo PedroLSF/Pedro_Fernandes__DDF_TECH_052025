@@ -13,9 +13,4 @@ export class InputUpdatePlanning implements Partial<PlanningEntity> {
   @IsNotEmpty()
   @IsString()
   title: string;
-
-  @ApiProperty({ description: 'Text', example: 'O Ciclo do...' })
-  @IsNotEmpty()
-  @IsString()
-  text: string;
 }

@@ -3,14 +3,16 @@ import { IUseCase } from '../iUseCase';
 import { IError } from '@shared/error';
 import { Inject, Logger } from '@nestjs/common';
 import {
+  InputCountUserRepositoryDto,
   IUserRepository,
   IUserRepositoryToken,
 } from '@business/repositories/userRepository';
 
+export type InputCountUserDto = InputCountUserRepositoryDto;
 export type OutputCountUserDto = Either<IError, number>;
 
 export class CountUserUseCase
-  implements IUseCase<undefined, OutputCountUserDto>
+  implements IUseCase<InputCountUserDto, OutputCountUserDto>
 {
   private readonly logger: Logger = new Logger(CountUserUseCase.name, {
     timestamp: true,
@@ -22,8 +24,8 @@ export class CountUserUseCase
     this.logger.debug('new instance');
   }
 
-  async execute(): Promise<OutputCountUserDto> {
-    const output = await this.userRepository.count();
+  async execute(input: InputCountUserDto): Promise<OutputCountUserDto> {
+    const output = await this.userRepository.count(input);
 
     if (output.isLeft()) {
       return left(output.value);

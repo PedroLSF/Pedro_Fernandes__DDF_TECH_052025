@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
+  InputCountUserRepositoryDto,
   InputCreateUserRepositoryDto,
   InputDeleteUserRepositoryDto,
   InputFindByUserRepositoryDto,
@@ -44,12 +45,38 @@ export class UserRepository implements IUserRepository {
     this.logger.debug('new instance');
   }
 
-  async count(): Promise<OutputCountUserRepositoryDto> {
+  async count(
+    input: InputCountUserRepositoryDto,
+  ): Promise<OutputCountUserRepositoryDto> {
     try {
+      const filter: Prisma.UserWhereInput = {
+        ...makeFilter({
+          operator: 'AND',
+          resource: input.filter,
+          definition: [
+            {
+              operator: 'contains',
+              field: 'name',
+            },
+            {
+              operator: 'gte',
+              field: 'created_at',
+              value: cast(input?.filter?.start_date, (value) => value),
+            },
+            {
+              operator: 'lte',
+              field: 'created_at',
+              value: cast(input?.filter?.end_date, (value) => value),
+            },
+          ],
+        }),
+      };
+
       return right(
         await this.prismaService.user.count({
           where: {
             deleted_at: null,
+            ...filter,
           },
         }),
       );
@@ -141,11 +168,34 @@ export class UserRepository implements IUserRepository {
     input: InputListUserRepositoryDto,
   ): Promise<OutputListUserRepositoryDto> {
     try {
+      const filter: Prisma.UserWhereInput = {
+        ...makeFilter({
+          operator: 'AND',
+          resource: input.filter,
+          definition: [
+            {
+              operator: 'contains',
+              field: 'name',
+            },
+            {
+              operator: 'gte',
+              field: 'created_at',
+              value: cast(input?.filter?.start_date, (value) => value),
+            },
+            {
+              operator: 'lte',
+              field: 'created_at',
+              value: cast(input?.filter?.end_date, (value) => value),
+            },
+          ],
+        }),
+      };
       const users = await this.prismaService.user.findMany({
         take: input.take || DEFAULT_PAGE_SIZE,
         skip: input.skip || 0,
         where: {
           deleted_at: null,
+          ...filter,
         },
         include: {
           _count: {

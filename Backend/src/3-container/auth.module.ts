@@ -5,6 +5,7 @@ import { IJwtServiceToken } from '@business/services/jwtService';
 import { AuthenticateUserUseCase } from '@business/useCases/auth/authenticateUserUseCase';
 import { JwtStrategy } from '@framework/guard/jwt.strategy';
 import { UserModule } from './user.module';
+import { AuthController } from '@framework/controllers/auth.controller';
 
 @Module({
   imports: [
@@ -22,6 +23,8 @@ import { UserModule } from './user.module';
     JwtStrategy,
     AuthenticateUserUseCase,
   ],
+  controllers: [AuthController],
+
   exports: [IJwtServiceToken, AuthenticateUserUseCase],
 })
 export class AuthModule {}

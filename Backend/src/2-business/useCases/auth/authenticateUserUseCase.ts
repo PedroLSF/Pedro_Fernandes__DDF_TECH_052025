@@ -18,7 +18,10 @@ export type InputAuthenticateUserWithPasswordDto = {
 };
 export type OutputAuthenticateUserWithPasswordDto = Either<
   IError,
-  { access_token: string }
+  {
+    access_token: string;
+    user: IUser;
+  }
 >;
 
 @Injectable()
@@ -63,6 +66,9 @@ export class AuthenticateUserUseCase
       return left(authenticated.value);
     }
 
-    return right({ access_token: authenticated.value });
+    return right({
+      access_token: authenticated.value,
+      user: getUser.value,
+    });
   }
 }

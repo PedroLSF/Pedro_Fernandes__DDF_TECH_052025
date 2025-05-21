@@ -1,0 +1,141 @@
+image: node:18
+
+pipelines:
+  # Pipelines executados automaticamente
+  branches:
+    # Pipeline de publicação no ambiente da Italents - GCM-1358
+    develop:
+      - step:
+          name: 'Build [admin_unyplay].[development]'
+          image: atlassian/default-image:4
+          deployment: develop
+          script:
+            ## Clona repositorio de configuracao
+            - git clone git@bitbucket.org:italents/${APP_CONFIG_REPOSITORY}.git -b master app-config
+            - apt-key update && apt-get update
+            - apt-get install -y --force-yes jq
+            - npm install --global vercel
+            - vercel pull --yes --environment=preview --token=$VERCEL_TOKEN_ITALENTS
+
+            ## Atualiza configuracoes de ambiente
+            - cp -f app-config/settings/frontend/config/.env.develop .env
+            - vercel build --token=$VERCEL_TOKEN_ITALENTS
+            - vercel deploy --prebuilt --token=$VERCEL_TOKEN_ITALENTS
+
+          ## Envia notificacao via webhook
+          after-script:
+            ## Cria variaveis
+            - THEME_COLOR="7FFF00"
+            - ALERT_TYPE="SUCESSO"
+            - if [[ $BITBUCKET_EXIT_CODE -ne 0 ]]; then THEME_COLOR="FF0000" ; fi
+            - if [[ $BITBUCKET_EXIT_CODE -ne 0 ]]; then ALERT_TYPE="FALHA" ; fi
+
+            ## Substitui variaveis no json
+            - sed -i "s/BITBUCKET_THEME_COLOR/${THEME_COLOR}/" app-config/settings/notificacao/notificacao.json
+            - sed -i "s/BITBUCKET_SUMMARY/${BITBUCKET_REPO_SLUG} - ${BITBUCKET_DEPLOYMENT_ENVIRONMENT} - build com ${ALERT_TYPE}/" app-config/settings/notificacao/notificacao.json
+            - sed -i "s/BITBUCKET_LINK_DEPLOYMENT/https:\/\/bitbucket.org\/${BITBUCKET_WORKSPACE}\/${BITBUCKET_REPO_SLUG}\/addon\/pipelines\/deployments\#\!\/environments\/${BITBUCKET_DEPLOYMENT_ENVIRONMENT_UUID}/" app-config/settings/notificacao/notificacao.json
+
+            ## Envio de notificação
+            - curl -X POST -H "Content-Type application/json" -d "@./app-config/settings/notificacao/notificacao.json" ${WEBHOOK_TO_DEV_ITALENTS};
+    testing:
+      - step:
+          name: Versao [admin_unyplay].[testing]
+          image: atlassian/default-image:4
+          script:
+            ## Clona repositorio de configuracao
+            - git clone git@bitbucket.org:unyleya/${APP_CONFIG_REPOSITORY}.git -b main app-config
+
+            ## Gera versao
+            - echo ${VERSION_DEV}
+            - VERSION=$(bash ./app-config/settings/frontend/create-dynamic-version.sh ${VERSION_DEV})
+            - >-
+              curl -X PUT
+              --user "${QA_DDS_USER}":"${QA_DDS_PASSWORD}"
+              --url 'https://api.bitbucket.org/2.0/repositories/unyleya/admin_unyplay/pipelines_config/variables/\{f0d64391-ee26-48f5-9ae8-deb3ae746dfb\}'
+              --data '{"value":"'${VERSION}'"}'
+              -H 'Accept: application/json'
+              -H 'Content-Type:application/json'
+            - echo $VERSION
+      - step:
+          name: 'Build [admin_unyplay].[testing]'
+          deployment: testing
+          script:
+            ## Clona repositorio de configuracao
+            - git clone git@bitbucket.org:unyleya/${APP_CONFIG_REPOSITORY}.git -b main app-config
+            - apt-key update && apt-get update
+            - apt-get install -y --force-yes jq
+            - npm install --global vercel
+            - npm version ${VERSION_DEV}
+            - vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
+
+            ## Atualiza configuracoes de ambiente
+            - cp -f app-config/settings/frontend/config/.env.develop .env
+            - vercel build --token=$VERCEL_TOKEN
+            - vercel deploy --prebuilt --token=$VERCEL_TOKEN
+
+          ## Envia notificacao via webhook
+          after-script:
+            ## Cria variaveis
+            - THEME_COLOR="7FFF00"
+            - ALERT_TYPE="SUCESSO"
+            - if [[ $BITBUCKET_EXIT_CODE -ne 0 ]]; then THEME_COLOR="FF0000" ; fi
+            - if [[ $BITBUCKET_EXIT_CODE -ne 0 ]]; then ALERT_TYPE="FALHA" ; fi
+
+            ## Substitui variaveis no json
+            - sed -i "s/BITBUCKET_THEME_COLOR/${THEME_COLOR}/" app-config/settings/notificacao/notificacao_deploy.json
+            - sed -i "s/BITBUCKET_SUMMARY/${BITBUCKET_REPO_SLUG} - ${BITBUCKET_DEPLOYMENT_ENVIRONMENT} - build com ${ALERT_TYPE}/" app-config/settings/notificacao/notificacao_deploy.json
+            - sed -i "s/BITBUCKET_LINK_DEPLOYMENT/https:\/\/bitbucket.org\/${BITBUCKET_WORKSPACE}\/${BITBUCKET_REPO_SLUG}\/addon\/pipelines\/deployments\#\!\/environments\/${BITBUCKET_DEPLOYMENT_ENVIRONMENT_UUID}/" app-config/settings/notificacao/notificacao_deploy.json
+
+            ## Envio de notificação
+            - curl -X POST -H "Content-Type application/json" -d "@./app-config/settings/notificacao/notificacao_deploy.json" ${WEBHOOK_TO_DEV};
+    main:
+      - step:
+          name: Versao [admin_unyplay].[production]
+          image: atlassian/default-image:4
+          script:
+            ## Clona repositorio de configuracao
+            - git clone git@bitbucket.org:unyleya/${APP_CONFIG_REPOSITORY}.git -b main app-config
+
+            ## Gera versao
+            - echo ${VERSION_PROD}
+            - VERSION=$(bash ./app-config/settings/frontend/create-dynamic-version.sh ${VERSION_PROD})
+            - >-
+              curl -X PUT
+              --user "${QA_DDS_USER}":"${QA_DDS_PASSWORD}"
+              --url 'https://api.bitbucket.org/2.0/repositories/unyleya/admin_unyplay/pipelines_config/variables/\{d892d905-ca08-43da-9cab-c2b4b9fb1318\}'
+              --data '{"value":"'${VERSION}'"}'
+              -H 'Accept: application/json'
+              -H 'Content-Type:application/json'
+            - echo $VERSION
+      - step:
+          name: 'Build [admin_unyplay].[production]'
+          deployment: production
+          script:
+            ## Clona repositorio de configuracao
+            - git clone git@bitbucket.org:unyleya/${APP_CONFIG_REPOSITORY}.git -b main app-config
+            - apt-key update && apt-get update
+            - apt-get install -y --force-yes jq
+            - npm install --global vercel
+            - npm version ${VERSION_PROD}
+            - vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
+
+            ## Atualiza configuracoes de ambiente
+            - cp -f app-config/settings/frontend/config/.env.production .env
+            - vercel build --token=$VERCEL_TOKEN
+            - vercel deploy --prebuilt --token=$VERCEL_TOKEN
+            - vercel --prod --token=$VERCEL_TOKEN
+          ## Envia notificacao via webhook
+          after-script:
+            ## Cria variaveis
+            - THEME_COLOR="7FFF00"
+            - ALERT_TYPE="SUCESSO"
+            - if [[ $BITBUCKET_EXIT_CODE -ne 0 ]]; then THEME_COLOR="FF0000" ; fi
+            - if [[ $BITBUCKET_EXIT_CODE -ne 0 ]]; then ALERT_TYPE="FALHA" ; fi
+
+            ## Substitui variaveis no json
+            - sed -i "s/BITBUCKET_THEME_COLOR/${THEME_COLOR}/" app-config/settings/notificacao/notificacao_deploy.json
+            - sed -i "s/BITBUCKET_SUMMARY/${BITBUCKET_REPO_SLUG} - ${BITBUCKET_DEPLOYMENT_ENVIRONMENT} - build com ${ALERT_TYPE}/" app-config/settings/notificacao/notificacao_deploy.json
+            - sed -i "s/BITBUCKET_LINK_DEPLOYMENT/https:\/\/bitbucket.org\/${BITBUCKET_WORKSPACE}\/${BITBUCKET_REPO_SLUG}\/addon\/pipelines\/deployments\#\!\/environments\/${BITBUCKET_DEPLOYMENT_ENVIRONMENT_UUID}/" app-config/settings/notificacao/notificacao_deploy.json
+
+            ## Envio de notificação
+            - curl -X POST -H "Content-Type application/json" -d "@./app-config/settings/notificacao/notificacao_deploy.json" ${WEBHOOK_TO_PROD};
