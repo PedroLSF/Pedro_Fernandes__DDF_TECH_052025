@@ -5,18 +5,18 @@ import { left, right } from '@shared/either';
 import {
   IEssayRepository,
   IEssayRepositoryToken,
-  InputEssayPerThemeRepositoryDto,
-  OutputEssayPerThemeRepositoryDto,
+  InputEssayAvgRepositoryDto,
+  OutputEssayAvgRepositoryDto,
 } from '@business/repositories/essayRepository';
 
-export type InputEssayPerMonthDto = InputEssayPerThemeRepositoryDto;
-export type OutputEssayPerThemeDto = OutputEssayPerThemeRepositoryDto;
+export type InputEssayAvgDto = InputEssayAvgRepositoryDto;
+export type OutputEssayAvgDto = OutputEssayAvgRepositoryDto;
 
 @Injectable()
-export class GetEssaysPerThemeUseCase
-  implements IUseCase<InputEssayPerMonthDto, OutputEssayPerThemeDto>
+export class GetEssaysAvgUseCase
+  implements IUseCase<InputEssayAvgDto, OutputEssayAvgDto>
 {
-  private readonly logger: Logger = new Logger(GetEssaysPerThemeUseCase.name, {
+  private readonly logger: Logger = new Logger(GetEssaysAvgUseCase.name, {
     timestamp: true,
   });
   constructor(
@@ -26,8 +26,8 @@ export class GetEssaysPerThemeUseCase
     this.logger.debug('new instance');
   }
 
-  async execute(query: InputEssayPerMonthDto): Promise<OutputEssayPerThemeDto> {
-    const essays = await this.essayRepository.getEssaysPerTheme(query);
+  async execute(query: InputEssayAvgDto): Promise<OutputEssayAvgDto> {
+    const essays = await this.essayRepository.getEssaysAvgNote(query);
     if (essays.isLeft()) {
       return left(essays.value);
     }

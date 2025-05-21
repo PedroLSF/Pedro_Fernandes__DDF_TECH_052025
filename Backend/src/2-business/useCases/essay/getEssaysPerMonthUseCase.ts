@@ -5,14 +5,16 @@ import { left, right } from '@shared/either';
 import {
   IEssayRepository,
   IEssayRepositoryToken,
+  InputEssayPerMonthRepositoryDto,
   OutputEssayPerMonthRepositoryDto,
 } from '@business/repositories/essayRepository';
 
+export type InputEssayPerMonthDto = InputEssayPerMonthRepositoryDto;
 export type OutputEssayPerMonthDto = OutputEssayPerMonthRepositoryDto;
 
 @Injectable()
 export class GetEssaysPerMonthUseCase
-  implements IUseCase<undefined, OutputEssayPerMonthDto>
+  implements IUseCase<InputEssayPerMonthDto, OutputEssayPerMonthDto>
 {
   private readonly logger: Logger = new Logger(GetEssaysPerMonthUseCase.name, {
     timestamp: true,
@@ -24,8 +26,8 @@ export class GetEssaysPerMonthUseCase
     this.logger.debug('new instance');
   }
 
-  async execute(): Promise<OutputEssayPerMonthDto> {
-    const essays = await this.essayRepository.getEssaysPerMonth();
+  async execute(query: InputEssayPerMonthDto): Promise<OutputEssayPerMonthDto> {
+    const essays = await this.essayRepository.getEssaysPerMonth(query);
     if (essays.isLeft()) {
       return left(essays.value);
     }

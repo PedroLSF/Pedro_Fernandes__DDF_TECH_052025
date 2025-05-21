@@ -10,6 +10,8 @@ import { EssayController } from '@framework/controllers/essay.controller';
 import { CountEssayUseCase } from '@business/useCases/essay/countEssayUseCase';
 import { GetEssaysPerMonthUseCase } from '@business/useCases/essay/getEssaysPerMonthUseCase';
 import { GetEssaysPerThemeUseCase } from '@business/useCases/essay/getEssaysPerThemeUseCase';
+import { GetEssaysPerStatusUseCase } from '@business/useCases/essay/getEssaysPerStatusUseCase';
+import { GetEssaysAvgUseCase } from '@business/useCases/essay/getEssaysAvgUseCase';
 
 @Module({
   imports: [],
@@ -26,6 +28,8 @@ import { GetEssaysPerThemeUseCase } from '@business/useCases/essay/getEssaysPerT
     CountEssayUseCase,
     GetEssaysPerMonthUseCase,
     GetEssaysPerThemeUseCase,
+    GetEssaysPerStatusUseCase,
+    GetEssaysAvgUseCase,
   ],
   controllers: [EssayController],
   exports: [
@@ -38,6 +42,8 @@ import { GetEssaysPerThemeUseCase } from '@business/useCases/essay/getEssaysPerT
     CountEssayUseCase,
     GetEssaysPerMonthUseCase,
     GetEssaysPerThemeUseCase,
+    GetEssaysPerStatusUseCase,
+    GetEssaysAvgUseCase,
   ],
 })
 export class EssayModule {}

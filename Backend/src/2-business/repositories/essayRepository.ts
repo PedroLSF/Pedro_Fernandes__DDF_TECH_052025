@@ -5,6 +5,8 @@ import {
   IEssay,
   EssayPerMonthItem,
   EssayPerThemeItem,
+  EssayPerStatusItem,
+  EssayAvgItem,
 } from '@domain/entities/essay';
 
 // create
@@ -51,16 +53,38 @@ export type InputDeleteEssayRepositoryDto = { id: string };
 export type OutputDeleteEssayRepositoryDto = Either<IError, boolean>;
 
 //getEssaysPerMonth
+export type InputEssayPerMonthRepositoryDto = {
+  userId?: string;
+};
 export type OutputEssayPerMonthRepositoryDto = Either<
   IError,
   EssayPerMonthItem[]
 >;
 
 //getEssaysPerTheme
+export type InputEssayPerThemeRepositoryDto = {
+  userId?: string;
+};
 export type OutputEssayPerThemeRepositoryDto = Either<
   IError,
   EssayPerThemeItem[]
 >;
+
+//getEssaysPerStatus
+export type InputEssayPerStatusRepositoryDto = {
+  userId?: string;
+};
+export type OutputEssayPerStatusRepositoryDto = Either<
+  IError,
+  EssayPerStatusItem[]
+>;
+
+//getEssaysAvg
+export type InputEssayAvgRepositoryDto = {
+  userId?: string;
+};
+export type OutputEssayAvgRepositoryDto = Either<IError, EssayAvgItem[]>;
+
 export interface IEssayRepository {
   create: (
     input: InputCreateEssayRepositoryDto,
@@ -80,8 +104,18 @@ export interface IEssayRepository {
   delete: (
     input: InputDeleteEssayRepositoryDto,
   ) => Promise<OutputDeleteEssayRepositoryDto>;
-  getEssaysPerMonth: () => Promise<OutputEssayPerMonthRepositoryDto>;
-  getEssaysPerTheme: () => Promise<OutputEssayPerThemeRepositoryDto>;
+  getEssaysPerMonth: (
+    query: InputEssayPerMonthRepositoryDto,
+  ) => Promise<OutputEssayPerMonthRepositoryDto>;
+  getEssaysPerTheme: (
+    query: InputEssayPerThemeRepositoryDto,
+  ) => Promise<OutputEssayPerThemeRepositoryDto>;
+  getEssaysPerStatus: (
+    query: InputEssayPerStatusRepositoryDto,
+  ) => Promise<OutputEssayPerStatusRepositoryDto>;
+  getEssaysAvgNote: (
+    query: InputEssayAvgRepositoryDto,
+  ) => Promise<OutputEssayAvgRepositoryDto>;
 }
 
 export const IEssayRepositoryToken = Symbol('IEssayRepository');

@@ -37,6 +37,8 @@ import { IEssay } from '@domain/entities/essay';
 import { AuthGuard } from '@nestjs/passport';
 import { GetEssaysPerMonthUseCase } from '@business/useCases/essay/getEssaysPerMonthUseCase';
 import { GetEssaysPerThemeUseCase } from '@business/useCases/essay/getEssaysPerThemeUseCase';
+import { GetEssaysPerStatusUseCase } from '@business/useCases/essay/getEssaysPerStatusUseCase';
+import { GetEssaysAvgUseCase } from '@business/useCases/essay/getEssaysAvgUseCase';
 
 @ApiTags('Essay')
 @Controller('/essay')
@@ -53,6 +55,8 @@ export class EssayController {
     private readonly updateEssayUseCase: UpdateEssayUseCase,
     private readonly getEssaysPerMonthUseCase: GetEssaysPerMonthUseCase,
     private readonly getEssaysPerThemeUseCase: GetEssaysPerThemeUseCase,
+    private readonly getEssaysPerStatusUseCase: GetEssaysPerStatusUseCase,
+    private readonly getEssaysAvgUseCase: GetEssaysAvgUseCase,
   ) {
     this.logger.debug('new instance');
   }
@@ -63,8 +67,15 @@ export class EssayController {
   @ApiOperation({
     description: 'Route to get essay per month',
   })
-  async getEssayPerMonth(@Req() req: Request, @Res() res: Response) {
-    const essay = await this.getEssaysPerMonthUseCase.execute();
+  async getEssayPerMonth(
+    @Query()
+    query: {
+      userId?: string;
+    },
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const essay = await this.getEssaysPerMonthUseCase.execute(query);
 
     return sendUseCaseHttpResponse({
       req,
@@ -80,8 +91,63 @@ export class EssayController {
   @ApiOperation({
     description: 'Route to get essay per theme',
   })
-  async getEssayPerTheme(@Req() req: Request, @Res() res: Response) {
-    const essay = await this.getEssaysPerThemeUseCase.execute();
+  async getEssayPerTheme(
+    @Query()
+    query: {
+      userId?: string;
+    },
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const essay = await this.getEssaysPerThemeUseCase.execute(query);
+
+    return sendUseCaseHttpResponse({
+      req,
+      res,
+      resource: essay,
+      loggerInstance: this.logger,
+    });
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @Get('/essay-per-status')
+  @ApiOperation({
+    description: 'Route to get essay per status',
+  })
+  async getEssayPerStatus(
+    @Query()
+    query: {
+      userId?: string;
+    },
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const essay = await this.getEssaysPerStatusUseCase.execute(query);
+
+    return sendUseCaseHttpResponse({
+      req,
+      res,
+      resource: essay,
+      loggerInstance: this.logger,
+    });
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @Get('/essay-avg-note')
+  @ApiOperation({
+    description: 'Route to get essay avg note',
+  })
+  async getEssayAvg(
+    @Query()
+    query: {
+      userId?: string;
+    },
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const essay = await this.getEssaysAvgUseCase.execute(query);
 
     return sendUseCaseHttpResponse({
       req,

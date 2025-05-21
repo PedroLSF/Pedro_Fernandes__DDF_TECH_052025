@@ -22,13 +22,16 @@ export class InputCreatePlanning implements Partial<IPlanning> {
   @IsString()
   theme: string;
 
+  @ApiProperty({
+    description: 'Text',
+    example: 'Valorização da Identidade Africana',
+  })
+  @IsNotEmpty()
+  @IsString()
+  text: string;
+
   @ApiProperty({ description: 'user_id', example: 'user_123' })
   @IsNotEmpty()
   @IsString()
   user_id: string;
-
-  @ApiProperty({ description: 'essay_id', example: 'essay_123' })
-  @IsNotEmpty()
-  @IsString()
-  essay_id: string;
 }

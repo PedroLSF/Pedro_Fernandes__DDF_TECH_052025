@@ -69,3 +69,17 @@ export const getEssayByThemeError: IError = {
   shortMessage: 'getEssayByThemeError',
   message: 'Houve um erro ao obter Redações por tema.',
 };
+
+export const getEssayByStatusError: IError = {
+  httpCode: 500,
+  code: 'ESA-011',
+  shortMessage: 'getEssayByStatusError',
+  message: 'Houve um erro ao obter Redações por status.',
+};
+
+export const getEssayAVGNoteError: IError = {
+  httpCode: 500,
+  code: 'ESA-012',
+  shortMessage: 'getEssayAVGNoteError',
+  message: 'Houve um erro ao obter média das notas.',
+};

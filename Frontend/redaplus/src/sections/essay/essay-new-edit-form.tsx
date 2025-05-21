@@ -27,7 +27,7 @@ import { useAuthContext } from 'src/auth/hooks';
 
 import { useSnackbar } from 'src/components/snackbar';
 import CategorySelector from 'src/components/category-selector';
-import FormProvider, { RHFSelect, RHFTextField, RHFUploadAvatar } from 'src/components/hook-form';
+import FormProvider, { RHFSelect, RHFTextField } from 'src/components/hook-form';
 
 import { ICategory } from 'src/types/category';
 import { IUserItem, USER_ADMIN_OPTIONS, USER_STATUS_OPTIONS } from 'src/types/user';

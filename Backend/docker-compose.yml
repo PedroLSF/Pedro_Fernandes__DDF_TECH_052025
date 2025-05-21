@@ -1,30 +1,52 @@
 version: '3.9'
+
 services:
   mysql:
     image: 'mysql:8'
     container_name: 'mysql-redaplus'
-    restart: 'unless-stopped'
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: 'redaplus'
       MYSQL_DATABASE: 'redaplus'
     ports:
       - '3306:3306'
     volumes:
-      - 'mysql-data-volume:/var/lib/mysql'
+      - mysql-data-volume:/var/lib/mysql
 
   backend:
     build:
       context: '.'
       dockerfile: 'Dockerfile'
-    container_name: 'backend_redaplus_1'
-    restart: 'unless-stopped'
+    container_name: 'backend_redaplus'
+    restart: unless-stopped
     depends_on:
-      - 'mysql'
+      - mysql
     ports:
       - '5000:5000'
     environment:
       - DATABASE_URL=mysql://root:redaplus@mysql:3306/redaplus
     volumes:
       - .:/app
+
+  n8n:
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile.n8n' # Dockerfile custom para n8n (veja abaixo)
+    container_name: n8n_redaplus
+    ports:
+      - '5678:5678'
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin
+      - N8N_USER_MANAGEMENT_DISABLED=true
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+    depends_on:
+      - backend
+    volumes:
+      - n8n-data:/home/node/.n8n
+    restart: unless-stopped
+
 volumes:
   mysql-data-volume:
+  n8n-data:

@@ -45,5 +45,8 @@ export const paths = {
       new: `${ROOTS.DASHBOARD}/essay/new`,
       edit: (id: string) => `${ROOTS.DASHBOARD}/essay/${id}`,
     },
+    planning: {
+      new: `${ROOTS.DASHBOARD}/planning/new`,
+    },
   },
 };

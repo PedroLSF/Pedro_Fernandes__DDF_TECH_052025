@@ -1,6 +1,10 @@
 import { Either } from '@shared/either';
 import { IError } from '@shared/error';
-import { InputPlanning, IPlanning } from '@domain/entities/planning';
+import {
+  InputPlanning,
+  IPlanning,
+  PlanningPerMonthItem,
+} from '@domain/entities/planning';
 
 // create
 export type InputCreatePlanningRepositoryDto = InputPlanning;
@@ -45,6 +49,15 @@ export type OutputFindByPlanningRepositoryDto = Either<IError, IPlanning>;
 export type InputDeletePlanningRepositoryDto = { id: string };
 export type OutputDeletePlanningRepositoryDto = Either<IError, boolean>;
 
+//getPlanningsPerMonth
+export type InputPlanningPerMonthRepositoryDto = {
+  userId?: string;
+};
+export type OutputPlanningPerMonthRepositoryDto = Either<
+  IError,
+  PlanningPerMonthItem[]
+>;
+
 export interface IPlanningRepository {
   create: (
     input: InputCreatePlanningRepositoryDto,
@@ -64,6 +77,9 @@ export interface IPlanningRepository {
   delete: (
     input: InputDeletePlanningRepositoryDto,
   ) => Promise<OutputDeletePlanningRepositoryDto>;
+  getPlanningsPerMonth: (
+    query: InputPlanningPerMonthRepositoryDto,
+  ) => Promise<OutputPlanningPerMonthRepositoryDto>;
 }
 
 export const IPlanningRepositoryToken = Symbol('IPlanningRepository');

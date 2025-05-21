@@ -15,6 +15,12 @@ import {
   InputCountEssayRepositoryDto,
   OutputEssayPerMonthRepositoryDto,
   OutputEssayPerThemeRepositoryDto,
+  InputEssayPerMonthRepositoryDto,
+  InputEssayPerThemeRepositoryDto,
+  OutputEssayPerStatusRepositoryDto,
+  InputEssayPerStatusRepositoryDto,
+  OutputEssayAvgRepositoryDto,
+  InputEssayAvgRepositoryDto,
 } from '@business/repositories/essayRepository';
 import { PrismaService } from '@framework/database/prisma.service';
 import { handleErrorLog } from '@shared/error';
@@ -27,7 +33,9 @@ import {
   essayListError,
   essayNotFoundError,
   essayUpdateErrorr,
+  getEssayAVGNoteError,
   getEssayByMonthError,
+  getEssayByStatusError,
   getEssayByThemeError,
 } from '@business/errors/essay';
 import { plainToInstance } from 'class-transformer';
@@ -147,18 +155,27 @@ export class EssayRepository implements IEssayRepository {
     }
   }
 
-  async getEssaysPerMonth(): Promise<OutputEssayPerMonthRepositoryDto> {
+  async getEssaysPerMonth(
+    query: InputEssayPerMonthRepositoryDto,
+  ): Promise<OutputEssayPerMonthRepositoryDto> {
     try {
       const result = await this.prismaService.$queryRaw<
         { month: string; count: bigint }[]
-      >`
+      >(
+        Prisma.sql`
       SELECT
         DATE_FORMAT(created_at, '%Y-%m') AS month,
         COUNT(*) AS count
       FROM essays
+      ${
+        query.userId
+          ? Prisma.sql`WHERE user_id = ${query.userId}`
+          : Prisma.sql``
+      }
       GROUP BY month
       ORDER BY month;
-    `;
+    `,
+      );
 
       const formatted = result.map((item) => ({
         ...item,
@@ -171,18 +188,27 @@ export class EssayRepository implements IEssayRepository {
     }
   }
 
-  async getEssaysPerTheme(): Promise<OutputEssayPerThemeRepositoryDto> {
+  async getEssaysPerTheme(
+    query: InputEssayPerThemeRepositoryDto,
+  ): Promise<OutputEssayPerThemeRepositoryDto> {
     try {
       const result = await this.prismaService.$queryRaw<
         { theme: string; count: bigint }[]
-      >`
+      >(
+        Prisma.sql`
       SELECT
         theme,
         COUNT(*) AS count
       FROM essays
+      ${
+        query.userId
+          ? Prisma.sql`WHERE user_id = ${query.userId}`
+          : Prisma.sql``
+      }
       GROUP BY theme
       ORDER BY count DESC;
-    `;
+    `,
+      );
 
       const formatted = result.map((item) => ({
         theme: item.theme,
@@ -192,6 +218,73 @@ export class EssayRepository implements IEssayRepository {
       return right(formatted);
     } catch (error) {
       return left(getEssayByThemeError);
+    }
+  }
+
+  async getEssaysPerStatus(
+    query: InputEssayPerStatusRepositoryDto,
+  ): Promise<OutputEssayPerStatusRepositoryDto> {
+    try {
+      const result = await this.prismaService.$queryRaw<
+        { status: string; count: bigint }[]
+      >(
+        Prisma.sql`
+      SELECT
+        status,
+        COUNT(*) AS count
+      FROM essays
+      ${
+        query.userId
+          ? Prisma.sql`WHERE user_id = ${query.userId}`
+          : Prisma.sql``
+      }
+      GROUP BY status
+      ORDER BY count DESC;
+    `,
+      );
+
+      const formatted = result.map((item) => ({
+        status: item.status,
+        count: Number(item.count),
+      }));
+
+      return right(formatted);
+    } catch (error) {
+      return left(getEssayByStatusError);
+    }
+  }
+
+  async getEssaysAvgNote(
+    query: InputEssayAvgRepositoryDto,
+  ): Promise<OutputEssayAvgRepositoryDto> {
+    try {
+      const result = await this.prismaService.$queryRaw<
+        { month: string; avg_note: number }[]
+      >(
+        Prisma.sql`
+        SELECT
+          DATE_FORMAT(created_at, '%Y-%m') AS month,
+          AVG(note) AS avg_note
+        FROM essays
+        WHERE note IS NOT NULL
+        ${
+          query.userId
+            ? Prisma.sql`AND user_id = ${query.userId}`
+            : Prisma.sql``
+        }
+        GROUP BY month
+        ORDER BY month;
+      `,
+      );
+
+      const formatted = result.map((item) => ({
+        month: item.month,
+        avg: Number(item.avg_note),
+      }));
+
+      return right(formatted);
+    } catch (error) {
+      return left(getEssayAVGNoteError);
     }
   }
 

@@ -4,8 +4,7 @@ import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
-export const STORAGE_KEY = '@@unyplay-access_token';
-export const STORAGE_KEY_REFRESH = '@@unyplay-refresh_token';
+export const STORAGE_KEY = '@@access_token';
 
 export function jwtDecode(token: string) {
   const base64Url = token.split('.')[1];
@@ -58,7 +57,6 @@ export const tokenExpired = (exp: number) => {
     });
 
     localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(STORAGE_KEY_REFRESH);
 
     window.location.href = paths.auth.jwt.login;
   }, timeLeft);

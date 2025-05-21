@@ -10,6 +10,7 @@ export class PlanningEntity
   id: string;
   title: string;
   theme: string;
+  text: string;
 
   user_id: string;
   user: IUser;

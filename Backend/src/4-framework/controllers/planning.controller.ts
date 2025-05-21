@@ -35,6 +35,7 @@ import { InputCreatePlanning } from '@framework/serializers/planning/create';
 import { InputUpdatePlanning } from '@framework/serializers/planning/update';
 import { IPlanning } from '@domain/entities/planning';
 import { AuthGuard } from '@nestjs/passport';
+import { GetPlanningsPerMonthUseCase } from '@business/useCases/planning/getPlanningsPerMonthUseCase';
 
 @ApiTags('Planning')
 @Controller('/planning')
@@ -49,8 +50,33 @@ export class PlanningController {
     private readonly createPlanningUseCase: CreatePlanningUseCase,
     private readonly deletePlanningUseCase: DeletePlanningUseCase,
     private readonly updatePlanningUseCase: UpdatePlanningUseCase,
+    private readonly getPlanningsPerMonthUseCase: GetPlanningsPerMonthUseCase,
   ) {
     this.logger.debug('new instance');
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @Get('/planning-per-month')
+  @ApiOperation({
+    description: 'Route to get planning per month',
+  })
+  async getEssayPerMonth(
+    @Query()
+    query: {
+      userId?: string;
+    },
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const essay = await this.getPlanningsPerMonthUseCase.execute(query);
+
+    return sendUseCaseHttpResponse({
+      req,
+      res,
+      resource: essay,
+      loggerInstance: this.logger,
+    });
   }
 
   @UseGuards(AuthGuard('jwt'))

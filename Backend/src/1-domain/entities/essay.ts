@@ -10,9 +10,19 @@ export type EssayPerThemeItem = {
   count: number;
 };
 
+export type EssayPerStatusItem = {
+  status: string;
+  count: number;
+};
+
 export type EssayPerMonthItem = {
   month: string;
   count: number;
+};
+
+export type EssayAvgItem = {
+  month: string;
+  avg: number;
 };
 
 export interface IEssay {

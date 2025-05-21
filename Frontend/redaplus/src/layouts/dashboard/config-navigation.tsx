@@ -86,6 +86,12 @@ export function useNavData() {
             icon: ICONS.blog,
             dataCy: 'essay',
           },
+          {
+            title: 'Planejamneto',
+            path: paths.dashboard.planning.new,
+            icon: ICONS.mail,
+            dataCy: 'essay',
+          },
         ],
       },
     ],

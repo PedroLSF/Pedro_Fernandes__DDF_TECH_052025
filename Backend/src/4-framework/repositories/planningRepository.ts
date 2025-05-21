@@ -13,11 +13,14 @@ import {
   OutputListPlanningRepositoryDto,
   OutputUpdatePlanningRepositoryDto,
   InputCountPlanningRepositoryDto,
+  InputPlanningPerMonthRepositoryDto,
+  OutputPlanningPerMonthRepositoryDto,
 } from '@business/repositories/planningRepository';
 import { PrismaService } from '@framework/database/prisma.service';
 import { handleErrorLog } from '@shared/error';
 import { left, right } from '@shared/either';
 import {
+  getPlanningPerMonthError,
   planningCountError,
   planningCreateError,
   planningDeleteErrorr,
@@ -83,6 +86,39 @@ export class PlanningRepository implements IPlanningRepository {
     } catch (error) {
       handleErrorLog(error, this.logger);
       return left(planningCountError);
+    }
+  }
+
+  async getPlanningsPerMonth(
+    query: InputPlanningPerMonthRepositoryDto,
+  ): Promise<OutputPlanningPerMonthRepositoryDto> {
+    try {
+      const whereClause = query.userId
+        ? Prisma.sql`WHERE user_id = ${query.userId}`
+        : Prisma.empty;
+
+      const result = await this.prismaService.$queryRaw<
+        { month: string; count: bigint }[]
+      >(
+        Prisma.sql`
+        SELECT
+          DATE_FORMAT(created_at, '%Y-%m') AS month,
+          COUNT(*) AS count
+        FROM Plannings
+        ${whereClause}
+        GROUP BY month
+        ORDER BY month;
+      `,
+      );
+
+      const formatted = result.map((item) => ({
+        month: item.month,
+        count: Number(item.count),
+      }));
+
+      return right(formatted);
+    } catch (error) {
+      return left(getPlanningPerMonthError);
     }
   }
 

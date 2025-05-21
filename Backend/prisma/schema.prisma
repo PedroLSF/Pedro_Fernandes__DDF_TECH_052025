@@ -61,6 +61,7 @@ model Planning {
   id    String @id @default(cuid())
   title String
   theme String @db.LongText
+  text  String @db.LongText
 
   user_id String?
   user    User?   @relation(fields: [user_id], references: [id])

@@ -55,3 +55,10 @@ export const planningDeleteErrorr: IError = {
   shortMessage: 'planningDeleteErrorr',
   message: 'Houve um erro ao excluir planejamentos.',
 };
+
+export const getPlanningPerMonthError: IError = {
+  httpCode: 500,
+  code: 'ESA-009',
+  shortMessage: 'getPlanningPerMonthError',
+  message: 'Houve um erro ao obter planejamentos mensais.',
+};

@@ -8,6 +8,7 @@ import { ListPlanningUseCase } from '@business/useCases/planning/listPlanningUse
 import { CreatePlanningUseCase } from '@business/useCases/planning/createPlanningUseCase';
 import { PlanningController } from '@framework/controllers/planning.controller';
 import { CountPlanningUseCase } from '@business/useCases/planning/countPlanningUseCase';
+import { GetPlanningsPerMonthUseCase } from '@business/useCases/planning/getPlanningsPerMonthUseCase';
 
 @Module({
   imports: [],
@@ -22,6 +23,7 @@ import { CountPlanningUseCase } from '@business/useCases/planning/countPlanningU
     ListPlanningUseCase,
     DeletePlanningUseCase,
     CountPlanningUseCase,
+    GetPlanningsPerMonthUseCase,
   ],
   controllers: [PlanningController],
   exports: [
@@ -32,6 +34,7 @@ import { CountPlanningUseCase } from '@business/useCases/planning/countPlanningU
     ListPlanningUseCase,
     DeletePlanningUseCase,
     CountPlanningUseCase,
+    GetPlanningsPerMonthUseCase,
   ],
 })
 export class PlanningModule {}

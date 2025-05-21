@@ -1,0 +1,14 @@
+FROM n8nio/n8n:latest
+
+# Instala o shell (sh) via busybox
+USER root
+RUN apk add --no-cache busybox-suid
+
+RUN mkdir -p /home/node/import
+
+COPY ./n8n/exported-workflows.json /home/node/import/exported-workflows.json
+COPY entrypointN8N.sh /app/entrypointN8N.sh
+
+RUN chmod +x /app/entrypointN8N.sh
+
+ENTRYPOINT ["/app/entrypointN8N.sh"]

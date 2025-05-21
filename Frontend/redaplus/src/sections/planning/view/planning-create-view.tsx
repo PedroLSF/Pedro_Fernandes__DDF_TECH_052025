@@ -7,12 +7,12 @@ import { paths } from 'src/routes/paths';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 
-import EssayNewEditForm from '../essay-new-edit-form';
 import { useAuthContext } from 'src/auth/hooks';
+import PlanningNewEditForm from '../planning-new-edit-form';
 
 // ----------------------------------------------------------------------
 
-export default function EssayCreateView() {
+export default function PlanningCreateView() {
   const settings = useSettingsContext();
   const { user } = useAuthContext();
 
@@ -25,18 +25,18 @@ export default function EssayCreateView() {
             name: 'Dashboard',
             href: paths.dashboard.root,
           },
-          {
-            name: 'Lista de Redações',
-            href: paths.dashboard.user.list,
-          },
-          { name: 'Nova Redação' },
+          //   {
+          //     name: 'Lista de usuário',
+          //     href: paths.dashboard.user.list,
+          //   },
+          { name: 'Novo Planejamento' },
         ]}
         sx={{
           mb: { xs: 3, md: 5 },
         }}
       />
 
-      <EssayNewEditForm user={user} />
+      <PlanningNewEditForm user={user} />
     </Container>
   );
 }
