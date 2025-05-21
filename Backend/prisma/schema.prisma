@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum EssayStatusType {
+  Submitted
+  Reviewed
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String?
+  biography String?
+  active    Boolean? @default(true)
+
+  is_master Boolean    @default(false)
+  Essay     Essay[]
+  Planning  Planning[]
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime?
+
+  @@map("users")
+}
+
+model Essay {
+  id    String @id @default(cuid())
+  title String
+  text  String
+
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id])
+
+  status EssayStatusType
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime?
+
+  @@map("essays")
+}
+
+model Planning {
+  id    String @id @default(cuid())
+  title String
+  text  String
+
+  user_id String?
+  user    User?   @relation(fields: [user_id], references: [id])
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime?
+
+  @@map("Plannings")
+}

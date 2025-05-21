@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  mysql:
+    image: 'mysql:8'
+    container_name: 'mysql-redaplus'
+    restart: 'unless-stopped'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'redaplus'
+      MYSQL_DATABASE: 'redaplus'
+    ports:
+      - '3306:3306'
+    volumes:
+      - 'mysql-data-volume:/var/lib/mysql'
+
+  backend:
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile'
+    container_name: 'backend_redaplus_1'
+    restart: 'unless-stopped'
+    depends_on:
+      - 'mysql'
+    ports:
+      - '5000:5000'
+    environment:
+      - DATABASE_URL=mysql://root:redaplus@mysql:3306/redaplus
+    volumes:
+      - .:/app
+volumes:
+  mysql-data-volume:
