@@ -3,11 +3,11 @@
 📄 As documentações e a gestão de riscos podem ser encontradas na pasta [`/docs`](./docs).
 
 ## 📚 Sumário:
-1. [🎥 Apresentações](#apresentações)
-2. 🚀 [Projeto](#projeto)
-3. 🛠️ [Configuração do Ambiente](#configuração-do-ambiente)
-4. 🧪 [Testes](#testes)
-5. 🖼️ [Capturas de Tela - Uso da Aplicação](#capturas-de-tela---uso-da-aplicação)
+1. 🎥 [Apresentações](#🎥-apresentações)
+2. 🚀 [Projeto](#🚀-projeto)
+3. 🛠️ [Configuração do Ambiente](#🛠️-configuração-do-ambiente)
+4. 🧪 [Testes](#🧪-testes)
+5. 🖼️ [Capturas de Tela - Uso da Aplicação](#🖼️-capturas-de-tela---uso-da-aplicação)
 
 ## 🎥 Apresentações
 
@@ -26,7 +26,7 @@ Foi desenvolvida com as seguintes tecnologias:
 
 * **Frontend:** Desenvolvido com Next.js (React) e a biblioteca Minimals (baseada em MUI). Conforme descrito na seção de gestão de riscos (link), a escolha dessa biblioteca se baseou na sua ampla gama de componentes e funcionalidades, o que, mesmo que nem todos fossem utilizados, proporcionou maior produtividade e contribuiu para o cumprimento do prazo.
 
-## 🎥 Configuração do Ambiente
+## 🛠️ Configuração do Ambiente
 
 ### 🧩 Backend
 
