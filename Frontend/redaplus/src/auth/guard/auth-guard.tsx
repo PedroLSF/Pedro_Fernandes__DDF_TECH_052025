@@ -30,7 +30,7 @@ export default function AuthGuard({ children }: Props) {
 function Container({ children }: Props) {
   const router = useRouter();
 
-  const { authenticated, method } = useAuthContext();
+  const { authenticated } = useAuthContext();
 
   const [checked, setChecked] = useState(false);
 
@@ -41,7 +41,7 @@ function Container({ children }: Props) {
         returnTo: `${window.location.pathname}?${currentUrl.searchParams.toString()}`,
       }).toString();
 
-      const loginPath = loginPaths[method];
+      const loginPath = loginPaths['jwt'];
 
       const href = `${loginPath}?${searchParams}`;
 
@@ -49,7 +49,7 @@ function Container({ children }: Props) {
     } else {
       setChecked(true);
     }
-  }, [authenticated, method, router]);
+  }, [authenticated, router]);
 
   useEffect(() => {
     check();
