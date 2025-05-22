@@ -69,7 +69,7 @@ const schema: SchemaFilters[] = [
   },
   {
     name: 'title',
-    placeholder: 'Digitar...',
+    placeholder: 'Digitar Título...',
     type: 'text',
     dataCy: 'type-user-title',
   },
