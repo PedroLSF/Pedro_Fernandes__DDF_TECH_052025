@@ -3,17 +3,15 @@
 import isEqual from 'lodash/isEqual';
 import React, { useState, useEffect, useCallback } from 'react';
 
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
+import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { alpha, useTheme } from '@mui/material/styles';
 import TableContainer from '@mui/material/TableContainer';
 
 import { paths } from 'src/routes/paths';
@@ -22,11 +20,11 @@ import { RouterLink } from 'src/routes/components';
 
 import { fDateEndOfDay, fDateStartOfDay } from 'src/utils/format-time';
 import {
-  failActiveTexts,
   failDeleteText,
+  failActiveTexts,
   failInactiveTexts,
-  successActiveTexts,
   successDeleteText,
+  successActiveTexts,
   successInactiveTexts,
 } from 'src/utils/message';
 
@@ -49,9 +47,8 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { PermissionSlug } from 'src/types/role';
+import { IUserItem, IUserTableFilters } from 'src/types/user';
 import { SchemaFilters, SchemaFiltersResults } from 'src/types/generic';
-import { IUserItem, IUserTableFilters, USER_STATUS_OPTIONS } from 'src/types/user';
 
 import UserTableRow from '../user-table-row';
 import { useFilter } from '../../../hooks/use-filter';
@@ -59,12 +56,8 @@ import { useBoolean } from '../../../hooks/use-boolean';
 import { ConfirmDialog } from '../../../components/custom-dialog';
 import axiosInstance, { fetcher, endpoints } from '../../../utils/axios';
 import { IPaginated, defaultPaginated } from '../../../types/pagination';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { MenuItem } from '@mui/material';
 
 // ----------------------------------------------------------------------
-
-const STATUS_OPTIONS = [{ value: '', label: 'Todos', dataCy: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Nome' },
@@ -202,7 +195,7 @@ export default function UserListView() {
         enqueueSnackbar(failDeleteText('usuário'), { variant: 'error' });
       }
     },
-    [data.results, enqueueSnackbar, table]
+    [data.results, enqueueSnackbar, applyFilters]
   );
 
   const handleActiveRows = async () => {

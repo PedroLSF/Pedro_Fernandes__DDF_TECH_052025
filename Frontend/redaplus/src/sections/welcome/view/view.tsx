@@ -3,9 +3,7 @@
 import * as React from 'react';
 
 import Box from '@mui/material/Box';
-import { Card } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography/Typography';
 
 import { useAuthContext } from 'src/auth/hooks';
@@ -15,9 +13,6 @@ import { useSettingsContext } from 'src/components/settings';
 export default function WelcomeView() {
   const settings = useSettingsContext();
   const { user } = useAuthContext();
-  const theme = useTheme();
-
-  const environment = process.env.NEXT_PUBLIC_NODE_ENV;
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

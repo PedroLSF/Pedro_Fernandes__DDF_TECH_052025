@@ -14,10 +14,8 @@ import SvgColor from 'src/components/svg-color';
 import { useSettingsContext } from 'src/components/settings';
 
 import { NAV, HEADER } from '../config-layout';
-import EntityPopover from '../common/entity-popover';
 import SettingsButton from '../common/settings-button';
 import AccountPopover from '../common/account-popover';
-import NotificationsPopover from '../common/notifications-popover';
 
 // ----------------------------------------------------------------------
 

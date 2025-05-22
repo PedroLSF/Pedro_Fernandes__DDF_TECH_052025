@@ -1,12 +1,11 @@
 import * as Yup from 'yup';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMemo, useState, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -14,7 +13,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { paths } from 'src/routes/paths';
 import { useRouter, useParams } from 'src/routes/hooks';
 
-import { fData } from 'src/utils/format-number';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import {
   failCreateText,
@@ -23,23 +21,13 @@ import {
   successUpdateText,
 } from 'src/utils/message';
 
-import { useAuthContext } from 'src/auth/hooks';
+import { AuthUserType } from 'src/auth/types';
 
 import { useSnackbar } from 'src/components/snackbar';
-import CategorySelector from 'src/components/category-selector';
-import FormProvider, { RHFSelect, RHFTextField } from 'src/components/hook-form';
+import FormProvider, { RHFTextField } from 'src/components/hook-form';
 
-import { ICategory } from 'src/types/category';
-import { IUserItem, USER_ADMIN_OPTIONS, USER_STATUS_OPTIONS } from 'src/types/user';
+import { IEssayItem, EssayStatusType } from 'src/types/essay';
 
-import { isUrl } from '../../utils/url';
-import { IRole } from '../../types/role';
-import RoleSelector from '../../components/role-selector';
-import { useBoolean } from 'src/hooks/use-boolean';
-import { IconButton, InputAdornment } from '@mui/material';
-import Iconify from 'src/components/iconify';
-import { EssayStatusType, IEssayItem } from 'src/types/essay';
-import { AuthUserType } from 'src/auth/types';
 
 // ----------------------------------------------------------------------
 

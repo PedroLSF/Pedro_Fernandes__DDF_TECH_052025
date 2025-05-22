@@ -4,21 +4,19 @@ import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
+import { Stack, Button, MenuItem, Typography } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { useAuthContext } from 'src/auth/hooks';
+import { AuthUserType } from 'src/auth/types';
 
 import Iconify from 'src/components/iconify';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-import { IUserItem } from 'src/types/user';
+import { IEssayItem, stateIcons, essayStatusTranslation } from 'src/types/essay';
 
 import { fDate, fTime } from '../../utils/format-time';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { Button, MenuItem, Stack, Typography } from '@mui/material';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { essayStatusTranslation, EssayStatusType, IEssayItem, stateIcons } from 'src/types/essay';
-import { AuthUserType } from 'src/auth/types';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +43,6 @@ export default function EssayTableRow({
   const quickEdit = useBoolean();
   const popover = usePopover();
   const confirm = useBoolean();
-  const showDetails = useBoolean();
 
   return (
     <>

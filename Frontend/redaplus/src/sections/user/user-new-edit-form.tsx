@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMemo, useState, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import Box from '@mui/material/Box';
@@ -8,13 +8,14 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { IconButton, InputAdornment } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter, useParams } from 'src/routes/hooks';
 
-import { fData } from 'src/utils/format-number';
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import {
   failCreateText,
@@ -23,21 +24,11 @@ import {
   successUpdateText,
 } from 'src/utils/message';
 
-import { useAuthContext } from 'src/auth/hooks';
-
-import { useSnackbar } from 'src/components/snackbar';
-import CategorySelector from 'src/components/category-selector';
-import FormProvider, { RHFSelect, RHFTextField, RHFUploadAvatar } from 'src/components/hook-form';
-
-import { ICategory } from 'src/types/category';
-import { IUserItem, USER_ADMIN_OPTIONS, USER_STATUS_OPTIONS } from 'src/types/user';
-
-import { isUrl } from '../../utils/url';
-import { IRole } from '../../types/role';
-import RoleSelector from '../../components/role-selector';
-import { useBoolean } from 'src/hooks/use-boolean';
-import { IconButton, InputAdornment } from '@mui/material';
 import Iconify from 'src/components/iconify';
+import { useSnackbar } from 'src/components/snackbar';
+import FormProvider, { RHFSelect, RHFTextField } from 'src/components/hook-form';
+
+import { IUserItem, USER_ADMIN_OPTIONS, USER_STATUS_OPTIONS } from 'src/types/user';
 
 // ----------------------------------------------------------------------
 
@@ -49,8 +40,6 @@ type Props = {
 export default function UserNewEditForm({ currentUser, mutate }: Props) {
   const router = useRouter();
   const { id } = useParams();
-
-  const { user } = useAuthContext();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -85,7 +74,6 @@ export default function UserNewEditForm({ currentUser, mutate }: Props) {
   const password = useBoolean();
 
   const {
-    setValue,
     reset,
     handleSubmit,
     formState: { isSubmitting },

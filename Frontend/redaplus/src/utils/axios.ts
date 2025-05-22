@@ -2,9 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 import { HOST_API } from 'src/config-global';
 
-import { currentEntityIdNullKey, currentEntityIdStorageKey } from '../types/general';
 import { jwtDecode, STORAGE_KEY, tokenExpired } from '../auth/context/jwt/utils';
-import DashboardDeviceVisualization from 'src/sections/dashboard/dashboard-device-visualization';
 
 // ----------------------------------------------------------------------
 

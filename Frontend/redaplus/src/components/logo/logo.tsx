@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
 
 import Link from '@mui/material/Link';
-import { useTheme } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
 
 import { RouterLink } from 'src/routes/components';
@@ -14,10 +13,6 @@ export interface LogoProps extends BoxProps {
 
 const Logo = forwardRef<HTMLDivElement, LogoProps>(
   ({ disabledLink = false, sx, ...other }, ref) => {
-    const theme = useTheme();
-
-    const PRIMARY = theme.palette.primary.main;
-
     const logo = (
       <Box
         component="img"

@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
-import { useMemo, useCallback, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useMemo, useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -12,16 +12,18 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useParams } from 'src/routes/hooks';
 
-import { useSnackbar } from 'src/components/snackbar';
 import axiosInstance from 'src/utils/axios';
 import {
-  successCreateText,
-  successUpdateText,
   failCreateText,
   failUpdateText,
+  successCreateText,
+  successUpdateText,
 } from 'src/utils/message';
 
 import { AuthUserType } from 'src/auth/types';
+
+import { useSnackbar } from 'src/components/snackbar';
+
 import { IPlanningItem } from 'src/types/planning';
 
 type Props = {
@@ -99,7 +101,7 @@ export default function PlanningNewEditForm({ user, currentPlanning, mutate }: P
         }
       }
     },
-    [enqueueSnackbar, id, mutate, user?.id]
+    [enqueueSnackbar, id, user?.id]
   );
 
   return (

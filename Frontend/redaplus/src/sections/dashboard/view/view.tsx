@@ -1,13 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { Container, Grid, ListItemText, Card } from '@mui/material';
-import DashboardAreaVisualization from '../dashboard-area-visualization';
-import { useSettingsContext } from 'src/components/settings';
-import { useAuthContext } from 'src/auth/hooks';
-import { LoadingScreen } from 'src/components/loading-screen';
+import { useState, useEffect } from 'react';
+
+import { Grid, Card, Container, ListItemText } from '@mui/material';
+
 import axiosInstance, { endpoints } from 'src/utils/axios';
+
+import { useAuthContext } from 'src/auth/hooks';
+
+import { useSettingsContext } from 'src/components/settings';
+import { LoadingScreen } from 'src/components/loading-screen';
+
+import DashboardAreaVisualization from '../dashboard-area-visualization';
 import DashboardDeviceVisualization from '../dashboard-device-visualization';
 
 type EssayPerMonth = {

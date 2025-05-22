@@ -26,8 +26,6 @@ type Props = {
 export default function UserShowDetails({ currentUser, open, onClose }: Props) {
   const [currentTab, setCurrentTab] = useState('general');
 
-  const entities = currentUser?.categoryUsers?.map((categoryUser) => categoryUser?.category?.name);
-
   const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   }, []);

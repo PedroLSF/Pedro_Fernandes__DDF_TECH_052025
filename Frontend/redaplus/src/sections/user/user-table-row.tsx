@@ -2,22 +2,20 @@ import Tooltip from '@mui/material/Tooltip';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
+import { Button, MenuItem } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { useAuthContext } from 'src/auth/hooks';
-
 import Iconify from 'src/components/iconify';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 import { IUserItem } from 'src/types/user';
 
 import UserShowDetails from './user-show-details';
 import { fDate, fTime } from '../../utils/format-time';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { Button, MenuItem } from '@mui/material';
-import { ConfirmDialog } from 'src/components/custom-dialog';
 
 // ----------------------------------------------------------------------
 

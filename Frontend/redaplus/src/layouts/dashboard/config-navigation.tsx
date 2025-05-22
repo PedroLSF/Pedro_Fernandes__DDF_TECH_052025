@@ -2,11 +2,8 @@ import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
 
-import { useAuthContext } from 'src/auth/hooks';
-
 import SvgColor from 'src/components/svg-color';
 
-import { PermissionSlug } from 'src/types/role';
 
 // ----------------------------------------------------------------------
 

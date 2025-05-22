@@ -3,32 +3,20 @@
 import isEqual from 'lodash/isEqual';
 import React, { useState, useEffect, useCallback } from 'react';
 
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import TableContainer from '@mui/material/TableContainer';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
+import { failDeleteText, successDeleteText } from 'src/utils/message';
 import { fDateEndOfDay, fDateStartOfDay } from 'src/utils/format-time';
-import {
-  failActiveTexts,
-  failDeleteText,
-  failInactiveTexts,
-  successActiveTexts,
-  successDeleteText,
-  successInactiveTexts,
-} from 'src/utils/message';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -45,23 +33,16 @@ import {
   useTable,
   TableNoData,
   TableHeadCustom,
-  TableSelectedAction,
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { PermissionSlug } from 'src/types/role';
+import { IEssayItem, IEssayTableFilters } from 'src/types/essay';
 import { SchemaFilters, SchemaFiltersResults } from 'src/types/generic';
-import { IUserItem, IUserTableFilters, USER_STATUS_OPTIONS } from 'src/types/user';
 
+import EssayTableRow from '../essay-table-row';
 import { useFilter } from '../../../hooks/use-filter';
-import { useBoolean } from '../../../hooks/use-boolean';
-import { ConfirmDialog } from '../../../components/custom-dialog';
 import axiosInstance, { fetcher, endpoints } from '../../../utils/axios';
 import { IPaginated, defaultPaginated } from '../../../types/pagination';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { MenuItem } from '@mui/material';
-import EssayTableRow from '../essay-table-row';
-import { IEssayItem, IEssayTableFilters } from 'src/types/essay';
 
 // ----------------------------------------------------------------------
 
@@ -199,7 +180,7 @@ export default function EssayListView() {
         enqueueSnackbar(failDeleteText('redação'), { variant: 'error' });
       }
     },
-    [data.results, enqueueSnackbar, table]
+    [data.results, enqueueSnackbar, applyFilters]
   );
 
   const handleEditRow = useCallback(
@@ -209,125 +190,123 @@ export default function EssayListView() {
     [router]
   );
   return (
-    <>
-      <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <CustomBreadcrumbs
-          heading="Redações"
-          links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Lista de redação' }]}
-          action={
-            user &&
-            user.is_master && (
-              <Button
-                data-cy="new-user-button"
-                component={RouterLink}
-                href={paths.dashboard.essay.new}
-                variant="contained"
-                startIcon={<Iconify icon="mingcute:add-line" />}
-              >
-                Nova Redação
-              </Button>
-            )
-          }
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
+    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+      <CustomBreadcrumbs
+        heading="Redações"
+        links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Lista de redação' }]}
+        action={
+          user &&
+          user.is_master && (
+            <Button
+              data-cy="new-user-button"
+              component={RouterLink}
+              href={paths.dashboard.essay.new}
+              variant="contained"
+              startIcon={<Iconify icon="mingcute:add-line" />}
+            >
+              Nova Redação
+            </Button>
+          )
+        }
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
+      />
+
+      <Card sx={{ p: 2.5 }}>
+        <TableToolbar
+          filters={filters}
+          schema={schema}
+          onFilters={handleFilterChange}
+          applyFilters={applyFilters}
+          setShowFiltersResults={setShowFiltersResults}
+          loading={loading}
         />
 
-        <Card sx={{ p: 2.5 }}>
-          <TableToolbar
+        {canReset && showFiltersResults && (
+          <TableFiltersResult
             filters={filters}
-            schema={schema}
+            initialFilters={defaultFilters}
+            schema={schemaResults}
             onFilters={handleFilterChange}
-            applyFilters={applyFilters}
+            onResetFilters={resetFilters}
+            showFiltersResults={showFiltersResults}
             setShowFiltersResults={setShowFiltersResults}
-            loading={loading}
+            results={loading ? 0 : (data.total ?? 0)}
+            isLoading={loading}
+            sx={{ p: 2, pt: 0 }}
           />
+        )}
 
-          {canReset && showFiltersResults && (
-            <TableFiltersResult
-              filters={filters}
-              initialFilters={defaultFilters}
-              schema={schemaResults}
-              onFilters={handleFilterChange}
-              onResetFilters={resetFilters}
-              showFiltersResults={showFiltersResults}
-              setShowFiltersResults={setShowFiltersResults}
-              results={loading ? 0 : (data.total ?? 0)}
-              isLoading={loading}
-              sx={{ p: 2, pt: 0 }}
-            />
-          )}
+        {!canReset && (
+          <TotalElementsOnTable results={loading ? 0 : (data.total ?? 0)} isLoading={loading} />
+        )}
 
-          {!canReset && (
-            <TotalElementsOnTable results={loading ? 0 : (data.total ?? 0)} isLoading={loading} />
-          )}
+        <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+          <Scrollbar>
+            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={data.results.length}
+                numSelected={table.selected.length}
+                onSort={table.onSort}
+                onSelectAllRows={(checked) =>
+                  table.onSelectAllRows(
+                    checked,
+                    data.results.map((row) => row.id)
+                  )
+                }
+              />
 
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-            <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={data.results.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      data.results.map((row) => row.id)
-                    )
-                  }
-                />
+              <TableBody>
+                {loading ? (
+                  Array.from({ length: table.rowsPerPage }).map((_, index) => (
+                    <TableSkeleton key={index} />
+                  ))
+                ) : (
+                  <>
+                    {data.results.map((row) => (
+                      <EssayTableRow
+                        key={row.id}
+                        row={row}
+                        user={user}
+                        selected={table.selected.includes(row.id)}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        onEditRow={() => handleEditRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row.id)}
+                      />
+                    ))}
+                  </>
+                )}
 
-                <TableBody>
-                  {loading ? (
-                    Array.from({ length: table.rowsPerPage }).map((_, index) => (
-                      <TableSkeleton key={index} />
-                    ))
-                  ) : (
-                    <>
-                      {data.results.map((row) => (
-                        <EssayTableRow
-                          key={row.id}
-                          row={row}
-                          user={user}
-                          selected={table.selected.includes(row.id)}
-                          onSelectRow={() => table.onSelectRow(row.id)}
-                          onEditRow={() => handleEditRow(row.id)}
-                          onDeleteRow={() => handleDeleteRow(row.id)}
-                        />
-                      ))}
-                    </>
-                  )}
+                {!loading && notFound && (
+                  <TableNoData
+                    notFound={notFound}
+                    sx={{
+                      m: -2,
+                      borderRadius: 1.5,
+                      border: `dashed 1px ${theme.palette.divider}`,
+                    }}
+                  />
+                )}
+              </TableBody>
+            </Table>
+          </Scrollbar>
+        </TableContainer>
 
-                  {!loading && notFound && (
-                    <TableNoData
-                      notFound={notFound}
-                      sx={{
-                        m: -2,
-                        borderRadius: 1.5,
-                        border: `dashed 1px ${theme.palette.divider}`,
-                      }}
-                    />
-                  )}
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </TableContainer>
-
-          <TablePaginationCustom
-            count={data?.total || 0}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-            dense={table.dense}
-            onChangeDense={table.onChangeDense}
-            mutate={() => applyFilters()}
-          />
-        </Card>
-      </Container>
-    </>
+        <TablePaginationCustom
+          count={data?.total || 0}
+          page={table.page}
+          rowsPerPage={table.rowsPerPage}
+          onPageChange={table.onChangePage}
+          onRowsPerPageChange={table.onChangeRowsPerPage}
+          dense={table.dense}
+          onChangeDense={table.onChangeDense}
+          mutate={() => applyFilters()}
+        />
+      </Card>
+    </Container>
   );
 }

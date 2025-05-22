@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useMemo, useState, useEffect, useReducer, useCallback } from 'react';
+import React, { useMemo, useEffect, useReducer, useCallback } from 'react';
 
 import axios, { endpoints, setSession } from 'src/utils/axios';
 
+import { isValidToken } from './utils';
 import { AuthContext } from './auth-context';
 import { ICategory } from '../../../types/category';
-import { isValidToken } from './utils';
 import { AuthUserType, ActionMapType, AuthStateType } from '../../types';
 import { currentEntityIdNullKey, currentEntityIdStorageKey } from '../../../types/general';
 

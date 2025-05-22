@@ -1,5 +1,4 @@
 import { _id } from 'src/_mock/assets';
-import { ChannelEditTabs } from 'src/_mock/_channel';
 // ----------------------------------------------------------------------
 const MOCK_ID = _id[1];
 
@@ -9,11 +8,6 @@ const ROOTS = {
 };
 
 // ----------------------------------------------------------------------
-
-const objParamToQs = (params: Record<string, any>) =>
-  Object.entries(params)
-    .map(([k, v]) => `${k}=${v}`)
-    .join('&');
 
 export const paths = {
   minimalUI: 'https://mui.com/store/items/minimal-dashboard/',

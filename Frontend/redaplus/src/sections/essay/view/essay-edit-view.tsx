@@ -4,16 +4,17 @@ import Container from '@mui/material/Container';
 
 import { paths } from 'src/routes/paths';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 
-import { IUserItem } from '../../../types/user';
+import { IEssayItem } from 'src/types/essay';
+
 import { endpoints } from '../../../utils/axios';
+import EssayNewEditForm from '../essay-new-edit-form';
 import useFetchOnce from '../../../hooks/useFetchOnce';
 import { LoadingScreen } from '../../../components/loading-screen';
-import { IEssayItem } from 'src/types/essay';
-import EssayNewEditForm from '../essay-new-edit-form';
-import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
