@@ -149,8 +149,8 @@ export const _analyticTraffic = [
 // ----------------------------------------------------------------------
 
 export const _ecommerceSalesOverview = [
-  'Italents',
-  'Unyleya',
+  'Reda',
+  'Redaplus',
   'Corp',
   'LTDA',
   'Empresa',
