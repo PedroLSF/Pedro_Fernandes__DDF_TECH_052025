@@ -11,11 +11,11 @@
 
 ## Apresentações
 
-1. Apresentação mais curta e em Português:
-* [Apresentação](https://youtu.be/hfNUDU638aQ)
+1. Apresentação em Português:
+* [Apresentação](https://youtu.be/5jN9nnhgJ7M)
 
-2. Apresentação mais lenta e com calma. Em Inglês:
-* [Apresentação](https://youtu.be/xkVVEZBFetg)
+2. Apresentação em Inglês:
+* [Apresentação](https://youtu.be/gTXIMXGMr8w)
 
 ## Projeto
 
