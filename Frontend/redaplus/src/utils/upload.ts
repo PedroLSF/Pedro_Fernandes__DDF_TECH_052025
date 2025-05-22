@@ -3,10 +3,9 @@ import { ReadonlyURLSearchParams } from 'next/navigation';
 
 import { ICategory } from 'src/types/category';
 
-import axios, { endpoints } from './axios';
+import axios from './axios';
 import { PRIORITY_HIGH } from './generics';
 import { FileWithMetadataId } from '../types/file';
-import { getVideoDuration, getVideoResolution } from './video';
 
 export function fileListener(options: {
   searchParams: ReadonlyURLSearchParams;
@@ -27,13 +26,6 @@ export function fileListener(options: {
     try {
       const human_type = options.searchParams.get('human_type') ?? 'raw';
 
-      if (human_type !== 'raw') {
-        const resolution = await getVideoResolution(file);
-        if (!resolution || resolution.height < 480) {
-          throw new Error('O vídeo precisa ter resolução mínima de 480p.');
-        }
-      }
-
       const replace_id = options.searchParams.get('replace_id') ?? null;
       let requestUploadPayload: Record<string, any> = {
         title: file.name,
@@ -47,7 +39,7 @@ export function fileListener(options: {
         file_last_modified: file.lastModified,
         file_type: file.type,
         human_type,
-        duration: await getVideoDuration(file),
+        duration: 200,
       };
       let url = '';
       if (replace_id) {
@@ -55,7 +47,7 @@ export function fileListener(options: {
         requestUploadPayload = {
           file_type: file.type,
           video_id: replace_id,
-          duration: await getVideoDuration(file),
+          duration: 200,
           file_size: file.size,
         } as Record<string, any>;
       }
