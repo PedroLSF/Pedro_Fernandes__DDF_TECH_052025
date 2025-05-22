@@ -46,8 +46,8 @@ export default function EssayEditView({ id }: Props) {
             href: paths.dashboard.root,
           },
           {
-            name: 'Usuário',
-            href: paths.dashboard.user.list,
+            name: 'Redações',
+            href: paths.dashboard.essay.root,
           },
           { name: currentEssay.title },
         ]}
