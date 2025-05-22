@@ -41,7 +41,7 @@ function Container({ children }: Props) {
         returnTo: `${window.location.pathname}?${currentUrl.searchParams.toString()}`,
       }).toString();
 
-      const loginPath = loginPaths['jwt'];
+      const loginPath = loginPaths.jwt;
 
       const href = `${loginPath}?${searchParams}`;
 
