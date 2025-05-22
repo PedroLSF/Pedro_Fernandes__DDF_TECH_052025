@@ -28,7 +28,7 @@ describe('countUserUseCase', () => {
     process.env['OMIT_ERROR_LOGGING_ONCE'] = 'once';
     process.env['NODE_ENV'] = 'testing';
     jest.spyOn(countUserUseCase, 'execute').mockResolvedValue(right(3));
-    const response = await countUserUseCase.execute();
+    const response = await countUserUseCase.execute({});
 
     expect(response).toBeDefined();
     expect(response.isRight()).toBeTruthy();
@@ -43,7 +43,7 @@ describe('countUserUseCase', () => {
     jest
       .spyOn(countUserUseCase, 'execute')
       .mockResolvedValue(left(userCountError));
-    const response = await countUserUseCase.execute();
+    const response = await countUserUseCase.execute({});
 
     expect(response).toBeDefined();
     expect(response.isLeft()).toBeTruthy();

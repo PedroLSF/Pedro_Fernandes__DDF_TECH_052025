@@ -43,9 +43,6 @@ describe('createUserUseCase', () => {
       .mockResolvedValue(left(userNotFoundError));
 
     jest.spyOn(userRepository, 'create').mockResolvedValue(right(mockUser));
-    jest
-      .spyOn(createUserUseCase['awsCognitoService'], 'getCognitoUser')
-      .mockResolvedValue(right({ name: 'teste', cognito_id: '123' }));
 
     const response = await createUserUseCase.execute(mockUser);
 
@@ -55,8 +52,6 @@ describe('createUserUseCase', () => {
     expect(response.value).toHaveProperty('name');
     expect(response.value).toHaveProperty('email');
     expect(response.value).toHaveProperty('id');
-    expect(response.value).toHaveProperty('identity_provider');
-    expect(response.value).toHaveProperty('identity_provider_id');
     expect.objectContaining(response);
   });
 

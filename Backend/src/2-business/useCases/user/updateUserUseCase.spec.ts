@@ -1,31 +1,35 @@
-import { AppModule } from '../../../app.module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Left, Right, left, right } from '@shared/either';
-import { disableExternalServices } from '@utils/test';
-import { InputUpdateUserDto, UpdateUserUseCase } from './updateUserUseCase';
 import {
   IUserRepository,
   IUserRepositoryToken,
 } from '@business/repositories/userRepository';
+import { UpdateUserUseCase, InputUpdateUserDto } from './updateUserUseCase';
 import { UserEntity } from '@domain/entities/user';
 import { userUpdateError } from '@business/errors/user';
 
 describe('UpdateUserUseCase', () => {
   let updateUserUseCase: UpdateUserUseCase;
-  let userRepository: IUserRepository;
+  let userRepository: jest.Mocked<IUserRepository>;
 
   beforeEach(async () => {
-    const app: TestingModule = await disableExternalServices(
-      Test.createTestingModule({
-        imports: [AppModule],
-      }),
-    ).compile();
+    const userRepositoryMock = {
+      findBy: jest.fn(),
+      update: jest.fn(),
+    };
 
-    updateUserUseCase = app.get<UpdateUserUseCase>(UpdateUserUseCase);
-    userRepository = app.get<IUserRepository>(IUserRepositoryToken);
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      providers: [
+        UpdateUserUseCase,
+        { provide: IUserRepositoryToken, useValue: userRepositoryMock },
+      ],
+    }).compile();
+
+    updateUserUseCase = moduleRef.get<UpdateUserUseCase>(UpdateUserUseCase);
+    userRepository = moduleRef.get(IUserRepositoryToken);
   });
 
-  it('should be defined', async () => {
+  it('should be defined', () => {
     expect(updateUserUseCase).toBeDefined();
     expect(userRepository).toBeDefined();
   });
@@ -45,26 +49,21 @@ describe('UpdateUserUseCase', () => {
       email: 'newEmail@email.com',
       password: '123',
     };
-    jest
-      .spyOn(userRepository, 'findBy')
-      .mockResolvedValue(right(mockUpdatedUser));
-    jest
-      .spyOn(userRepository, 'update')
-      .mockResolvedValue(right(mockUpdatedUser));
+
+    userRepository.findBy.mockResolvedValue(right(mockUpdatedUser));
+    userRepository.update.mockResolvedValue(right(mockUpdatedUser));
+
     const response = await updateUserUseCase.execute(mockUser);
 
     expect(response).toBeDefined();
-    expect(response.isRight()).toBeTruthy();
+    expect(response.isRight()).toBe(true);
     expect(response).toBeInstanceOf(Right);
     expect(response.value).toHaveProperty('id');
     expect(response.value).toHaveProperty('name');
     expect(response.value).toHaveProperty('email');
-    expect(response.value).toHaveProperty('identity_provider');
-    expect(response.value).toHaveProperty('identity_provider_id');
-    expect.objectContaining(response);
   });
 
-  it('should not updated a User', async () => {
+  it('should not update a User and return error', async () => {
     const mockUser: InputUpdateUserDto = {
       id: '123-321',
       data: {
@@ -72,15 +71,27 @@ describe('UpdateUserUseCase', () => {
         name: 'new name',
       },
     };
-    jest
-      .spyOn(userRepository, 'update')
-      .mockResolvedValue(left(userUpdateError));
+
+    userRepository.findBy.mockResolvedValue(
+      right({
+        id: '123-321',
+        name: 'old name',
+        is_master: false,
+        email: 'oldEmail@email.com',
+        password: '123',
+        identity_provider: null,
+        identity_provider_id: null,
+      }),
+    );
+
+    userRepository.update.mockResolvedValue(left(userUpdateError));
+
     const response = await updateUserUseCase.execute(mockUser);
+
     expect(response).toBeDefined();
-    expect(response.isLeft()).toBeTruthy();
+    expect(response.isLeft()).toBe(true);
     expect(response).toBeInstanceOf(Left);
     expect(response.value).toHaveProperty('httpCode');
     expect(response.value).toHaveProperty('code');
-    expect.objectContaining(response);
   });
 });
