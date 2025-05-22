@@ -195,18 +195,15 @@ export default function EssayListView() {
         heading="Redações"
         links={[{ name: 'Dashboard', href: paths.dashboard.root }, { name: 'Lista de redação' }]}
         action={
-          user &&
-          user.is_master && (
-            <Button
-              data-cy="new-user-button"
-              component={RouterLink}
-              href={paths.dashboard.essay.new}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-            >
-              Nova Redação
-            </Button>
-          )
+          <Button
+            data-cy="new-user-button"
+            component={RouterLink}
+            href={paths.dashboard.essay.new}
+            variant="contained"
+            startIcon={<Iconify icon="mingcute:add-line" />}
+          >
+            Nova Redação
+          </Button>
         }
         sx={{
           mb: { xs: 3, md: 5 },

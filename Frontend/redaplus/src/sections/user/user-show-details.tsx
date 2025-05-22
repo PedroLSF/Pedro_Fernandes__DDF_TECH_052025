@@ -81,16 +81,6 @@ export default function UserShowDetails({ currentUser, open, onClose }: Props) {
           }}
         >
           <Box px={1}>
-            <Avatar
-              data-cy="user-show-details-avatar"
-              alt={currentUser?.name}
-              src={currentUser?.avatar ? currentUser?.avatar : currentUser?.name}
-              sx={{ p: 3 }}
-            />
-          </Box>
-          <Box />
-
-          <Box px={1}>
             <Typography data-cy="user-show-details-label-name" sx={{ fontWeight: 'bold' }}>
               Nome:
             </Typography>
