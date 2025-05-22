@@ -111,7 +111,7 @@ Com isso finalizamos a configuração do Backend e do N8N.
 Agora vamos popular o banco, temos duas possibilidades:
 
 * Utilizar o arquivo de Seed;
-* Utilizar o backup (link).
+* Utilizar o [`/backup`](./scripts).
 
 Nesse tutorial vamos utilizar a seed, mas sinta-se a vontade para escolher o que melhor se encaixa para você.
 
@@ -128,7 +128,7 @@ Nesse tutorial vamos utilizar a seed, mas sinta-se a vontade para escolher o que
     ```
 
     Esse comando pode demorar um pouco, mas ao final do processo, você verá essa tela em caso de sucesso:
-    (IMAGEM)
+    ![Back-seed](/assets/Back/Back-Seed.png)
 
 Finalmente temos Backend + N8N configurados e Banco populado.
 
