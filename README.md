@@ -15,7 +15,7 @@
 * [Apresentação](https://youtu.be/5jN9nnhgJ7M)
 
 2. Apresentação em Inglês:
-* [Apresentação](https://youtu.be/gTXIMXGMr8w)
+* [Apresentação](https://youtu.be/2v_RnFVNe7o)
 
 ## Projeto
 
