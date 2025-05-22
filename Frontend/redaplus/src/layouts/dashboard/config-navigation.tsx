@@ -88,7 +88,7 @@ export function useNavData() {
             dataCy: 'essay',
           },
           {
-            title: 'Planejamneto',
+            title: 'Planejamento',
             path: paths.dashboard.planning.new,
             icon: ICONS.mail,
             dataCy: 'essay',

@@ -121,6 +121,7 @@ export default function PlanningNewEditForm({ user, currentPlanning, mutate }: P
               >
                 <TextField
                   label="Titulo do Planejamento *"
+                  data-cy="user-planning"
                   fullWidth
                   error={!!errors.title}
                   helperText={errors.title?.message}
@@ -129,6 +130,7 @@ export default function PlanningNewEditForm({ user, currentPlanning, mutate }: P
 
                 <TextField
                   label="Tema do Planejamento *"
+                  data-cy="user-theme"
                   fullWidth
                   error={!!errors.theme}
                   helperText={errors.theme?.message}

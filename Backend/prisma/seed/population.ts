@@ -5,7 +5,6 @@ import * as path from 'path';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('@@@', __dirname);
   const jsonPath = path.resolve(__dirname, './redaplus_seed_data.json');
   const { users, essays } = await readJson(jsonPath);
 
@@ -51,6 +50,7 @@ async function main() {
         title: essay.title,
         text: essay.text,
         theme: essay.theme,
+        note: essay.note,
         status: essay.status,
         user_id: essay.user_id,
         created_at: new Date(essay.created_at),

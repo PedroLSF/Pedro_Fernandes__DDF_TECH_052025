@@ -4,13 +4,13 @@ services:
     build:
       context: '.'
       dockerfile: 'Dockerfile'
-    image: 'admin_unyplay'
-    container_name: 'admin_unyplay'
+    image: 'admin_redaplus'
+    container_name: 'admin_redaplus'
     restart: 'unless-stopped'
     volumes:
       - './:/app'
     ports:
-      - "8083:8083"
+      - '8083:8083'
     deploy:
       resources:
         limits:

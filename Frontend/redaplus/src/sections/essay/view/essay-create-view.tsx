@@ -20,7 +20,7 @@ export default function EssayCreateView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="Usuários"
+        heading="Redações"
         links={[
           {
             name: 'Dashboard',

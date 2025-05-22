@@ -3,7 +3,7 @@ import JwtForgetPassowrdView from 'src/sections/auth/jwt/jwt-forgot-password-vie
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Unyplay: Esqueceu sua senha?',
+  title: 'RedaPlus: Esqueceu sua senha?',
 };
 
 export default function ForgetPasswordPage() {

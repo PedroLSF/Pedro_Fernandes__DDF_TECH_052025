@@ -154,7 +154,7 @@ export default function UserNewEditForm({ currentUser, mutate }: Props) {
 
               <RHFTextField name="biography" label="Mini Bio" data-cy="user-biography" />
 
-              <RHFSelect name="is_master" label="Admin? *" data-cy="user-active">
+              <RHFSelect name="is_master" label="Admin? *" data-cy="user-admin">
                 {USER_ADMIN_OPTIONS.map((status) => (
                   <MenuItem key={status.label} value={status.value as any} data-cy={status.dataCy}>
                     {status.label}

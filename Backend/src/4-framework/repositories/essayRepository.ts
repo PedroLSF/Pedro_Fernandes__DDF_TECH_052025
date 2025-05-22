@@ -348,6 +348,7 @@ export class EssayRepository implements IEssayRepository {
         take: input.take || DEFAULT_PAGE_SIZE,
         skip: input.skip || 0,
         where: {
+          deleted_at: null,
           ...filter,
           ...(input.filter.user_id ? { user_id: input.filter.user_id } : {}),
         },

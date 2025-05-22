@@ -226,6 +226,7 @@ export class PlanningRepository implements IPlanningRepository {
         take: input.take || DEFAULT_PAGE_SIZE,
         skip: input.skip || 0,
         where: {
+          deleted_at: null,
           ...filter,
         },
         include: {

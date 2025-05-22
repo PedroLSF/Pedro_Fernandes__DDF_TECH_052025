@@ -3,7 +3,7 @@ import { JwtLoginView } from 'src/sections/auth/jwt';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Unyplay: Entrar',
+  title: 'Redaplus: Entrar',
 };
 
 export default function LoginPage() {

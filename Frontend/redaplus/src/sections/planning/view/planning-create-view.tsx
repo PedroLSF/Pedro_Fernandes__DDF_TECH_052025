@@ -20,7 +20,7 @@ export default function PlanningCreateView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="Usuários"
+        heading="Planejamento"
         links={[
           {
             name: 'Dashboard',

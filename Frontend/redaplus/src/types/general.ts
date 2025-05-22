@@ -2,7 +2,7 @@ import { compareValues } from 'src/utils/sort';
 
 import { IFile } from './file-manager';
 
-export const currentEntityIdStorageKey = '@@unyplay/currentEntity';
+export const currentEntityIdStorageKey = '@@Redaplus/currentEntity';
 export const currentEntityIdNullKey = 'null';
 
 export const orderFieldSelected = (field: keyof typeof fields, sorted: string) => {

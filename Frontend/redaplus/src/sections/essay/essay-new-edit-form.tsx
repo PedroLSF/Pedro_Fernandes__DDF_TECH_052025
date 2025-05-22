@@ -28,7 +28,6 @@ import FormProvider, { RHFTextField } from 'src/components/hook-form';
 
 import { IEssayItem, EssayStatusType } from 'src/types/essay';
 
-
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -126,7 +125,7 @@ export default function EssayNewEditForm({ user, currentEssay, mutate }: Props) 
               <RHFTextField
                 name="title"
                 label="Titulo da Redação *"
-                data-cy="theme-name"
+                data-cy="title-name"
                 disabled={currentEssay && currentEssay.status === EssayStatusType.Reviewed}
               />
               <RHFTextField
@@ -142,7 +141,7 @@ export default function EssayNewEditForm({ user, currentEssay, mutate }: Props) 
               <RHFTextField
                 name="text"
                 label="Redação"
-                data-cy="user-phone"
+                data-cy="user-essay"
                 multiline
                 minRows={15}
                 fullWidth
