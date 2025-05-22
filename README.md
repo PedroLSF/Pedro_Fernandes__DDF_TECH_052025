@@ -1,13 +1,15 @@
 # Pedro_Fernandes__DDF_TECH_052025 - RedaPlus
 
-## Sumário:
-1. [Apresentações](#apresentações)
-2. [Projeto](#projeto)
-3. [Configuração do Ambiente](#configuração-do-ambiente)
-4. [Testes](#testes)
-5. [Capturas de Tela - Uso da Aplicação](#capturas-de-tela---uso-da-aplicação)
+📄 As documentações e a gestão de riscos podem ser encontradas na pasta [`/docs`](./docs).
 
-## Apresentações
+## 📚 Sumário:
+1. [🎥 Apresentações](#apresentações)
+2. 🚀 [Projeto](#projeto)
+3. 🛠️ [Configuração do Ambiente](#configuração-do-ambiente)
+4. 🧪 [Testes](#testes)
+5. 🖼️ [Capturas de Tela - Uso da Aplicação](#capturas-de-tela---uso-da-aplicação)
+
+## 🎥 Apresentações
 
 1. Apresentação mais curta e em Português:
 * [Apresentação](https://youtu.be/hfNUDU638aQ)
@@ -15,7 +17,7 @@
 2. Apresentação mais lenta e com calma. Em Inglês:
 * [Apresentação](https://youtu.be/xkVVEZBFetg)
 
-## Projeto
+## 🚀 Projeto
 
 RedaPlus é um software que conecta professores e alunos, onde alunos podem enviar redações para serem corrigidas e utilizar AI para planejar a escrita de novas redações.
 
@@ -24,9 +26,9 @@ Foi desenvolvida com as seguintes tecnologias:
 
 * **Frontend:** Desenvolvido com Next.js (React) e a biblioteca Minimals (baseada em MUI). Conforme descrito na seção de gestão de riscos (link), a escolha dessa biblioteca se baseou na sua ampla gama de componentes e funcionalidades, o que, mesmo que nem todos fossem utilizados, proporcionou maior produtividade e contribuiu para o cumprimento do prazo.
 
-## Configuração do Ambiente
+## 🎥 Configuração do Ambiente
 
-### Backend
+### 🧩 Backend
 
 1. Acesse a pasta do Backend:
 
@@ -63,7 +65,7 @@ Após isso, você deverá ver algo como isso (Em caso de sucesso):
 
 ***Obs:** Idealmente, o comando já irá buildar e subir a aplicação, mas caso contrário, é necessário buildar previamente.*
 
-5. Configurar N8N:
+5. 🔁 Configurar N8N:
 Acesse o seu N8N local, que você subiu no passo 3, como demonstrado na imagem logo acima, o meu está em `http://localhost:5678`.
 
     5.1. Para essa etapa, você verá a seguinte tela:
@@ -74,7 +76,7 @@ Acesse o seu N8N local, que você subiu no passo 3, como demonstrado na imagem l
     5.2 Clique em Get started e depois em skip:
     ![Back-N8N-get-start](/assets/Back/Back-N8N-GetStarted.png)
 
-    ![Back-N8N-skip](/assets/Back-N8N-tela-skip.png)
+    ![Back-N8N-skip](/assets/Back/Back-N8N-tela-skip.png)
 
     5.3 Abra o Workflow "My Workflow":
     ![Back-N8N-my-workflow](/assets/Back/Back-N8N-MyWorkflow.png)
@@ -130,7 +132,7 @@ Nesse tutorial vamos utilizar a seed, mas sinta-se a vontade para escolher o que
 
 Finalmente temos Backend + N8N configurados e Banco populado.
 
-### Frontend
+### 💻 Frontend
 
 1. Acesse a pasta do Frontend:
 
@@ -163,9 +165,9 @@ Após finalizar o processo, vamos ter essa mensagem no terminal:
 
 Pronto! Frontend Configurado, podemos iniciar o uso do RedaPlus.
 
-## Testes
+## 🧪 Testes
 
-### Backend
+### 🧩 Backend
 
 Para rodar os testes unitários no backend, siga os seguintes passos:
 
@@ -179,7 +181,7 @@ Você terá esse retorno no terminal:
 
 ![Back-TEST](/assets/Back/Back-UnitTest.png)
 
-### Frontend
+### 💻 Frontend
 
 Para rodar os testes de integração demonstrados no Frontend, suba o backend e o frontend como demonstrado nos passos anteriores e siga os seguintes passos:
 
@@ -195,7 +197,7 @@ Você terá esse retorno no terminal:
 
 ***Caso esteja com problemas ou queira ver no modo iterativo, também é possível acessar o modo interativo através de npx cypress open***
 
-## Capturas de Tela - Uso da Aplicação
+## 🖼️ Capturas de Tela - Uso da Aplicação
 
 1. Tela de Login
 ![TelaLogin](/assets/AplicationPrints/TelaDeLogin.png)
