@@ -45,7 +45,7 @@ npm install
 
 Após esses dois passos serem realizados com sucesso, você deverá ter um retorno parecido com esse:
 
-![Back-Step1an1d2](/assets/Back-InstallDependencies.png)
+![Back-Step1an1d2](/assets/Back/Back-InstallDependencies.png)
 *Passos 1, 2 e 3 realizados com sucesso*
 
 Depois disso, podemos subir o container do backend, que é composto pelo:
@@ -83,7 +83,7 @@ Acesse o seu N8N local, que você subiu no passo 3, como demonstrado na imagem l
 
     ***Obs:** Esse Workflow é importado de /Backend/n8n/exported-workflows.json*
 
-    5.4 Vamos inserir a API Key da OpenAI no modelo que sera enviada para ele, que será enviada para ele.
+    5.4 Vamos inserir a API Key da OpenAI no modelo.
 
     ![Back-N8N-workflow](/assets/Back/Back-N8N-Workflow.png)
 
