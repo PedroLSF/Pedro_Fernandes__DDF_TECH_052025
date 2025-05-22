@@ -3,13 +3,13 @@
 📄 As documentações e a gestão de riscos podem ser encontradas na pasta [`/docs`](./docs).
 
 ## 📚 Sumário:
-1. 🎥 [Apresentações](#🎥-apresentações)
-2. 🚀 [Projeto](#🚀-projeto)
-3. 🛠️ [Configuração do Ambiente](#🛠️-configuração-do-ambiente)
-4. 🧪 [Testes](#🧪-testes)
-5. 🖼️ [Capturas de Tela - Uso da Aplicação](#🖼️-capturas-de-tela---uso-da-aplicação)
+1. 🎥 [Apresentações](#apresentações)
+2. 🚀 [Projeto](#projeto)
+3. 🛠️ [Configuração do Ambiente](#configuração-do-ambiente)
+4. 🧪 [Testes](#testes)
+5. 🖼️ [Capturas de Tela - Uso da Aplicação](#capturas-de-tela---uso-da-aplicação)
 
-## 🎥 Apresentações
+## Apresentações
 
 1. Apresentação mais curta e em Português:
 * [Apresentação](https://youtu.be/hfNUDU638aQ)
@@ -17,16 +17,16 @@
 2. Apresentação mais lenta e com calma. Em Inglês:
 * [Apresentação](https://youtu.be/xkVVEZBFetg)
 
-## 🚀 Projeto
+## Projeto
 
 RedaPlus é um software que conecta professores e alunos, onde alunos podem enviar redações para serem corrigidas e utilizar AI para planejar a escrita de novas redações.
 
 Foi desenvolvida com as seguintes tecnologias:
 * **Backend:** Foi Utilizado Nest (NodeJS) devido a capacidade de injeção de dependências muito forte, modularização.
 
-* **Frontend:** Desenvolvido com Next.js (React) e a biblioteca Minimals (baseada em MUI). Conforme descrito na seção de gestão de riscos (link), a escolha dessa biblioteca se baseou na sua ampla gama de componentes e funcionalidades, o que, mesmo que nem todos fossem utilizados, proporcionou maior produtividade e contribuiu para o cumprimento do prazo.
+* **Frontend:** Desenvolvido com Next.js (React) e a biblioteca Minimals (baseada em MUI). Conforme descrito na seção de gestão de [riscos](./docs), a escolha dessa biblioteca se baseou na sua ampla gama de componentes e funcionalidades, o que, mesmo que nem todos fossem utilizados, proporcionou maior produtividade e contribuiu para o cumprimento do prazo.
 
-## 🛠️ Configuração do Ambiente
+## Configuração do Ambiente
 
 ### 🧩 Backend
 
@@ -106,7 +106,7 @@ Acesse o seu N8N local, que você subiu no passo 3, como demonstrado na imagem l
 
 Com isso finalizamos a configuração do Backend e do N8N.
 
-*Obs: A justificativa da escolha do N8N se encontra nos documentos da gestão de Risco (link).*
+*Obs: A justificativa da escolha do N8N se encontra nos documentos da gestão de [riscos](./docs).*
 
 Agora vamos popular o banco, temos duas possibilidades:
 
@@ -165,7 +165,7 @@ Após finalizar o processo, vamos ter essa mensagem no terminal:
 
 Pronto! Frontend Configurado, podemos iniciar o uso do RedaPlus.
 
-## 🧪 Testes
+## Testes
 
 ### 🧩 Backend
 
@@ -197,7 +197,7 @@ Você terá esse retorno no terminal:
 
 ***Caso esteja com problemas ou queira ver no modo iterativo, também é possível acessar o modo interativo através de npx cypress open***
 
-## 🖼️ Capturas de Tela - Uso da Aplicação
+## Capturas de Tela - Uso da Aplicação
 
 1. Tela de Login
 ![TelaLogin](/assets/AplicationPrints/TelaDeLogin.png)
