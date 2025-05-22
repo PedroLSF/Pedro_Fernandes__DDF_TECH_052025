@@ -31,7 +31,7 @@ export function fileArchiveListener(options: {
         file_last_modified: file.lastModified,
         file_type: file.type === '' ? file.name.split('.').pop() : file.type,
       };
-      let url = endpoints.upload.requestFileUpload;
+      let url = '';
 
       const {
         data: { file_id, upload_uri },
@@ -50,7 +50,7 @@ export function fileArchiveListener(options: {
       });
 
       if (response.status === 200) {
-        url = endpoints.upload.fileUploaded;
+        url = '';
         const payload = {
           file_id,
           frontend_file_id: file.id,

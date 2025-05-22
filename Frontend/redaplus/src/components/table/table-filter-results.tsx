@@ -1,6 +1,6 @@
 import { isValid } from 'date-fns';
 import isEqual from 'lodash/isEqual';
-import { useState, Dispatch, useEffect, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -10,12 +10,10 @@ import { Typography } from '@mui/material';
 import Stack, { StackProps } from '@mui/material/Stack';
 
 import Iconify from 'src/components/iconify';
-import { enqueueSnackbar } from 'src/components/snackbar';
 
 import { SchemaFiltersResults } from 'src/types/generic';
 
 import { fDate } from '../../utils/format-time';
-import { fetcher, endpoints } from '../../utils/axios';
 import { fSecondsToHms } from '../../utils/format-number';
 
 // ----------------------------------------------------------------------
@@ -44,38 +42,6 @@ export default function TableFiltersResult({
   isLoading = false,
   ...other
 }: Props) {
-  const [selected, setSelected] = useState<string[] | string | null>(null);
-
-  const fetchCategory = async () => {
-    try {
-      if (Array.isArray(filters.category_id)) {
-        const responses = await Promise.all(
-          filters.category_id.map(async (categoryId) => {
-            const response = await fetcher(endpoints.category.get(categoryId));
-            return response.name;
-          })
-        );
-        setSelected(responses);
-      } else {
-        const response = await fetcher(endpoints.category.get(filters.category_id));
-        setSelected(response.name);
-      }
-    } catch (error) {
-      console.error(error);
-      enqueueSnackbar('Erro ao buscar categoria', { variant: 'error' });
-      if (error.message) {
-        enqueueSnackbar(error.message, { variant: 'error' });
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (filters.category_id) {
-      fetchCategory().then(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters.category_id]);
-
   const canReset = !isEqual(initialFilters, filters);
 
   function safeVal(val: any) {
@@ -126,24 +92,6 @@ export default function TableFiltersResult({
                   return (
                     <Block key={index} label={sc.parentLabel}>
                       <Chip label={safeVal(sc.enum[filters[sc.name]])} size="small" />
-                    </Block>
-                  );
-                }
-                if (sc.type === 'category' && filters[sc.name] !== null) {
-                  return (
-                    <Block key={index} label={sc.parentLabel}>
-                      {selected && Array.isArray(selected) && selected.length > 0 ? (
-                        selected.map((value, idx) => (
-                          <Chip
-                            key={idx}
-                            label={value}
-                            size="small"
-                            data-cy="category_filter_label"
-                          />
-                        ))
-                      ) : (
-                        <Chip label={selected} size="small" data-cy="category_filter_label" />
-                      )}
                     </Block>
                   );
                 }

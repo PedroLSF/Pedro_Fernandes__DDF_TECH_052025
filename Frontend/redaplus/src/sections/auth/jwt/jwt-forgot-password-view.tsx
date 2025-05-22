@@ -52,7 +52,7 @@ export default function JwtForgetPassowrdView() {
         email: data.email,
       }).toString();
 
-      await axiosInstance.put(endpoints.user.forgotPassword, data);
+      await axiosInstance.put('', data);
 
       const href = `${paths.auth.jwt.new_password}?${searchParams}`;
       router.push(href);

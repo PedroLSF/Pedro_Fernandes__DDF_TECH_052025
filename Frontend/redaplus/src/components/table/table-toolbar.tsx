@@ -15,8 +15,6 @@ import Iconify from 'src/components/iconify';
 
 import { SchemaFilters } from 'src/types/generic';
 
-import ChannelSelector from '../channel-selector';
-import CategorySelector from '../category-selector';
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -119,41 +117,6 @@ export default function TableToolbar({
       <Typography variant="h6" sx={{ mb: 1 }}>
         Filtros
       </Typography>
-
-      <Stack>
-        {schema
-          ?.filter((sc) => sc.type === 'channel')
-          .map((sc) => (
-            <ChannelSelector
-              key={`${sc.name}${sc.type}`}
-              label="Selecionar Canal"
-              onChange={sc.handle ?? defaultChannelHandler(sc.name)}
-            />
-          ))}
-      </Stack>
-
-      <Stack sx={{ mt: 2, mb: 2 }}>
-        {schema
-          ?.filter((sc) => sc.type === 'category')
-          .map((sc) => (
-            <CategorySelector
-              key={`${sc.name}${sc.type}`}
-              label={
-                (sc.label ?? urlParams.has('directories'))
-                  ? 'Selecionar diretório'
-                  : 'Selecionar Categoria'
-              }
-              categoryId={filters[sc.name] ? filters[sc.name] : null}
-              onChange={sc.handle ?? defaultCategoryHandler(sc.name)}
-              directories={urlParams.has('directories')}
-              filter_in_channel={filter_in_channel}
-              channel_id={channel_id}
-              multiple={sc.multiple ?? false}
-              select_double_click={sc.select_double_click ?? false}
-              {...(sc.options ?? {})}
-            />
-          ))}
-      </Stack>
 
       <Stack spacing={2} direction={{ xs: 'row', sm: 'row' }} sx={{ mt: 2, mb: 2 }}>
         {schema

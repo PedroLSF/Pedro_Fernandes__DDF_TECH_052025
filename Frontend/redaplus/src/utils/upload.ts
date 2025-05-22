@@ -49,9 +49,9 @@ export function fileListener(options: {
         human_type,
         duration: await getVideoDuration(file),
       };
-      let url = endpoints.upload.requestVideoUpload;
+      let url = '';
       if (replace_id) {
-        url = endpoints.upload.requestReplaceVideoUpload;
+        url = '';
         requestUploadPayload = {
           file_type: file.type,
           video_id: replace_id,
@@ -76,7 +76,7 @@ export function fileListener(options: {
       });
 
       if (response.status === 200) {
-        url = endpoints.upload.videoUploaded;
+        url = '';
         let payload = {
           video_id,
           file_id: file.id,
@@ -86,7 +86,7 @@ export function fileListener(options: {
           generate_progress: true,
         } as Record<string, string | string[] | number | boolean>;
         if (replace_id) {
-          url = endpoints.upload.replaceVideoUploaded;
+          url = '';
           payload = {
             video_id,
             video_priority: PRIORITY_HIGH,

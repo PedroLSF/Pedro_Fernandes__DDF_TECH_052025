@@ -31,7 +31,6 @@ export type UseUploadControllerProps = {
 };
 
 export default function useUploadController(props: UseUploadControllerProps) {
-  const { startUpload, stopUpload } = useAuthContext();
   const [isUploading, setIsUploading] = useState(false);
   // eslint-disable-next-line
   const [_, setListenersIntervalIds] = useState<NodeJS.Timeout[]>([]);
@@ -102,7 +101,6 @@ export default function useUploadController(props: UseUploadControllerProps) {
       uploadQueueController.queueIds.length === 0
     ) {
       setIsUploading(false);
-      stopUpload();
       stopSilentAudio();
       return;
     }
@@ -130,7 +128,7 @@ export default function useUploadController(props: UseUploadControllerProps) {
           if (props.allowedPathname !== window.location.pathname) {
             resolve();
           }
-          const { data: progressData } = await axios.get(endpoints.progress.get, {
+          const { data: progressData } = await axios.get('', {
             params: {
               context,
               resource_id: video_id,
@@ -335,7 +333,6 @@ export default function useUploadController(props: UseUploadControllerProps) {
 
   const handleStartUploadQueue = () => {
     setIsUploading(true);
-    startUpload();
     startSilentAudio();
     uploadQueueController.queueIds = (
       filesWithId.filter(({ id }) => id) as Array<{ id: string }>

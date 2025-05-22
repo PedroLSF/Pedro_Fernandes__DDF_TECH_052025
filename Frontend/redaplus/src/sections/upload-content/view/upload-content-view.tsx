@@ -4,15 +4,7 @@ import { useSnackbar } from 'notistack';
 import { useState, useEffect, useCallback } from 'react';
 
 import Button from '@mui/material/Button';
-import {
-  Box,
-  Card,
-  Stack,
-  Container,
-  Typography,
-  CardContent,
-  CardActions,
-} from '@mui/material';
+import { Box, Card, Stack, Container, Typography, CardContent, CardActions } from '@mui/material';
 
 import { useSearchParams } from 'src/routes/hooks';
 
@@ -22,7 +14,6 @@ import axiosInstance, { endpoints } from 'src/utils/axios';
 import Iconify from 'src/components/iconify';
 import { Upload } from 'src/components/upload';
 import { useSettingsContext } from 'src/components/settings';
-import ChannelSelector from 'src/components/channel-selector';
 
 import { video_types } from 'src/types/video';
 import { ICategory } from 'src/types/category';
@@ -32,7 +23,6 @@ import { putIdOnFile } from '../../../utils/file';
 import { fileListener } from '../../../utils/upload';
 import { useSweetAlert } from '../../../utils/sweet-alert';
 import useUploadController from '../../../hooks/useUploadController';
-import CategorySelector from '../../../components/category-selector';
 
 export default function UploadContentView() {
   const settings = useSettingsContext();
@@ -96,7 +86,7 @@ export default function UploadContentView() {
           });
         }
 
-        const responseDir = await axiosInstance.post(endpoints.category.safeCreate, {
+        const responseDir = await axiosInstance.post('', {
           dirBaseId: searchParams.get('category_id') ?? getCategoryId(category),
           paths: allPaths ?? [],
         });
@@ -221,31 +211,7 @@ export default function UploadContentView() {
         )}
       </Stack>
       <Card sx={{ p: 2.5 }}>
-        {searchParams.has('replace_id') ? null : (
-          <CategorySelector
-            disabled={
-              isUploading || (searchParams.has('directories') && searchParams.has('human_type'))
-            }
-            label={searchParams.has('directories') ? 'Diretório' : 'Categoria'}
-            onChange={(value) => setCategory(value)}
-            categoryId={searchParams.get('category_id') ?? undefined}
-            directories={searchParams.has('directories')}
-            restrict_primaries
-          />
-        )}
-
         {/* Not Remove */}
-        {searchParams.has('human_type') &&
-        searchParams.get('human_type') === 'edited' &&
-        !searchParams.has('replace_title') ? (
-          <Box sx={{ mt: 2 }}>
-            <ChannelSelector
-              label="Canais"
-              onChange={(value) => setChannel(value ? value.map((ch) => ch.id) : [])}
-              multiple
-            />
-          </Box>
-        ) : null}
 
         <CardContent>
           <Upload

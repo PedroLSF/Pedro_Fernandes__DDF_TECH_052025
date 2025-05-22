@@ -22,7 +22,6 @@ import { putIdOnFile } from '../../../utils/file';
 import { useSweetAlert } from '../../../utils/sweet-alert';
 import { fileArchiveListener } from '../../../utils/upload-file';
 import useUploadController from '../../../hooks/useUploadController';
-import CategorySelector from '../../../components/category-selector';
 
 export default function UploadArchiveView() {
   const settings = useSettingsContext();
@@ -162,15 +161,6 @@ export default function UploadArchiveView() {
         <Typography variant="h4">Upload de arquivos</Typography>
       </Stack>
       <Card sx={{ p: 2.5 }}>
-        <CategorySelector
-          disabled={isUploading || searchParams.has('directories')}
-          label="Diretório"
-          onChange={(value) => setCategory(value)}
-          categoryId={searchParams.get('category_id') ?? undefined}
-          directories={searchParams.has('directories')}
-          restrict_primaries
-        />
-
         <CardContent>
           <Upload
             multiple

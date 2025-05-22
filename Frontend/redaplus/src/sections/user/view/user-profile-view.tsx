@@ -55,11 +55,7 @@ type Props = {
 export default function UserProfileView({ id }: Props) {
   const settings = useSettingsContext();
 
-  const {
-    data: currentUser,
-    isLoading,
-    mutate,
-  } = useFetch<IUserItem>(endpoints.user.getProfile(id));
+  const { data: currentUser, isLoading, mutate } = useFetch<IUserItem>('');
 
   const [currentTab, setCurrentTab] = useState('general');
 

@@ -69,7 +69,7 @@ export default function UserChangePassword() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await axiosInstance.put(endpoints.user.changePassword(id), data);
+      await axiosInstance.put('', data);
 
       reset();
       enqueueSnackbar(successUpdatePassword());

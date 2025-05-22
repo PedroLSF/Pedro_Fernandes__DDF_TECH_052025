@@ -35,7 +35,7 @@ export function RHFUploadImage({ name, ...other }: Props) {
         try {
           const {
             data: { storage_key, upload_uri },
-          } = await axiosInstance.post(endpoints.upload.requestImageUpload, {
+          } = await axiosInstance.post('', {
             type: file.type,
             name: file.name,
           });
@@ -109,7 +109,7 @@ export function RHFUploadAvatar({ name, ...other }: Props) {
         try {
           const {
             data: { storage_key, upload_uri },
-          } = await axiosInstance.post(endpoints.upload.requestImageUpload, {
+          } = await axiosInstance.post('', {
             type: file.type,
             name: file.name,
           });

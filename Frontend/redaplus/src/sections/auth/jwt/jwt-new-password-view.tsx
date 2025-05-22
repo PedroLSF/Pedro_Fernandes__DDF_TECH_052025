@@ -82,7 +82,7 @@ export default function JwtNewPasswordView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await axiosInstance.put(endpoints.user.confirmForgotPassword, data);
+      await axiosInstance.put('', data);
 
       router.push(paths.auth.jwt.login);
     } catch (error) {
@@ -95,7 +95,7 @@ export default function JwtNewPasswordView() {
   const handleResendCode = useCallback(async () => {
     try {
       startCountdown();
-      await axiosInstance.put(endpoints.user.forgotPassword, { email });
+      await axiosInstance.put('', { email });
     } catch (error) {
       enqueueSnackbar(emailNotFound(), {
         variant: 'error',
