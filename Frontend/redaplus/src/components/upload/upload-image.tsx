@@ -141,7 +141,7 @@ export default function UploadImage({
 
       {helperText && helperText}
 
-      <RejectionFiles fileRejections={fileRejections} />
+      <RejectionFiles fileRejections={[...fileRejections]} />
     </>
   );
 }
