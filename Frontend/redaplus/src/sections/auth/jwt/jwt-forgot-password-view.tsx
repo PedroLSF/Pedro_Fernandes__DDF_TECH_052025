@@ -13,8 +13,8 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
+import axiosInstance from 'src/utils/axios';
 import { emailNotFound } from 'src/utils/message';
-import axiosInstance, { endpoints } from 'src/utils/axios';
 
 import { PasswordIcon } from 'src/assets/icons';
 

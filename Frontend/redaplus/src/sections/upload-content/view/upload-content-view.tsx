@@ -4,12 +4,12 @@ import { useSnackbar } from 'notistack';
 import { useState, useEffect, useCallback } from 'react';
 
 import Button from '@mui/material/Button';
-import { Box, Card, Stack, Container, Typography, CardContent, CardActions } from '@mui/material';
+import { Card, Stack, Container, Typography, CardContent, CardActions } from '@mui/material';
 
 import { useSearchParams } from 'src/routes/hooks';
 
+import axiosInstance from 'src/utils/axios';
 import { getCategoryId } from 'src/utils/getCategoryId';
-import axiosInstance, { endpoints } from 'src/utils/axios';
 
 import Iconify from 'src/components/iconify';
 import { Upload } from 'src/components/upload';
@@ -31,8 +31,8 @@ export default function UploadContentView() {
   const { errorAlert } = useSweetAlert();
 
   const { enqueueSnackbar } = useSnackbar();
-  const [category, setCategory] = useState<ICategory[] | ICategory | null>(null);
-  const [channel, setChannel] = useState<string[]>([]);
+  const category = null;
+  const channel: never[] = [];
 
   const [data, setData] = useState<Array<ICategory> | null>(null);
   const {

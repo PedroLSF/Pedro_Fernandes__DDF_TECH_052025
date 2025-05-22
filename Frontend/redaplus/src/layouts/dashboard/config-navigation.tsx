@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
@@ -47,6 +49,8 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export function useNavData() {
+  const { user } = useAuthContext();
+
   const navData = useMemo(
     () => [
       // OVERVIEW
@@ -74,6 +78,7 @@ export function useNavData() {
             title: 'Usuários',
             path: paths.dashboard.user.list,
             icon: ICONS.user,
+            hidden: Boolean(user && !user.is_master),
             dataCy: 'users',
           },
           {
@@ -91,8 +96,8 @@ export function useNavData() {
         ],
       },
     ],
-    []
+    [user]
   );
 
-  return navData;
+  return navData.filter((group) => group.items.some((item) => !item.hidden));
 }

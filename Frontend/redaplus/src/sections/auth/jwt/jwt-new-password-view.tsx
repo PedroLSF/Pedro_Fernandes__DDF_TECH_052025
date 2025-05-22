@@ -19,7 +19,7 @@ import { useRouter, useSearchParams } from 'src/routes/hooks';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useCountdownSeconds } from 'src/hooks/use-countdown';
 
-import axiosInstance, { endpoints } from 'src/utils/axios';
+import axiosInstance from 'src/utils/axios';
 import { emailNotFound, recoveryPasswordFail } from 'src/utils/message';
 
 import { SentIcon } from 'src/assets/icons';

@@ -1,7 +1,7 @@
 import { AxiosProgressEvent } from 'axios';
 import { ReadonlyURLSearchParams } from 'next/navigation';
 
-import axios, { endpoints } from './axios';
+import axios from './axios';
 import { FileWithMetadataId } from '../types/file';
 
 export function fileArchiveListener(options: {

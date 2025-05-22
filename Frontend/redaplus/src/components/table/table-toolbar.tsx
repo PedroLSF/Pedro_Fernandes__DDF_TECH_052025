@@ -7,10 +7,6 @@ import Checkbox from '@mui/material/Checkbox';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Card, Stack, TextField, Typography, InputAdornment } from '@mui/material';
 
-import { useSearchParams } from 'src/routes/hooks';
-
-import { getCategoryId } from 'src/utils/getCategoryId';
-
 import Iconify from 'src/components/iconify';
 
 import { SchemaFilters } from 'src/types/generic';
@@ -40,8 +36,6 @@ export default function TableToolbar({
   channel_id,
   loading = false,
 }: Props) {
-  const urlParams = useSearchParams();
-
   const [textFilter, setTextFilter] = useState<string>('');
   const [idFilter, setIDFilter] = useState<string>('');
 
@@ -84,14 +78,6 @@ export default function TableToolbar({
 
   const defaultDateHandler = (name: string) => (value: any) => {
     handleFilterChange(name, value);
-  };
-
-  const defaultChannelHandler = (name: string) => (value: any) => {
-    handleFilterChange(name, value);
-  };
-
-  const defaultCategoryHandler = (name: string) => (value: any) => {
-    handleFilterChange(name, getCategoryId(value));
   };
 
   const defaultCheckboxHandler = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {

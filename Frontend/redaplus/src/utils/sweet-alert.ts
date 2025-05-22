@@ -15,7 +15,9 @@ export function useSweetAlert() {
   const urlAlert = (options: AlertOptions, url: string) =>
     SweetAlert.fire({
       icon: 'success',
-      customClass: `theme-${theme.palette.mode}`,
+      customClass: {
+        popup: `theme-${theme.palette.mode}`,
+      },
       ...options,
       html: `<a href="${url}" target="_blank">Clique para fazer o download</a>`,
     });
@@ -23,14 +25,18 @@ export function useSweetAlert() {
   const successAlert = (options: AlertOptions) =>
     SweetAlert.fire({
       icon: 'success',
-      customClass: `theme-${theme.palette.mode}`,
+      customClass: {
+        popup: `theme-${theme.palette.mode}`,
+      },
       ...options,
     });
 
   const errorAlert = (options: AlertOptions) =>
     SweetAlert.fire({
       icon: 'error',
-      customClass: `theme-${theme.palette.mode}`,
+      customClass: {
+        popup: `theme-${theme.palette.mode}`,
+      },
       ...options,
     });
 

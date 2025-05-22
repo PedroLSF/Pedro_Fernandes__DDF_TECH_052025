@@ -4,8 +4,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import FormHelperText from '@mui/material/FormHelperText';
 
+import axiosInstance from '../../utils/axios';
 import Loading from '../../app/dashboard/loading';
-import axiosInstance, { endpoints } from '../../utils/axios';
 import { Upload, UploadBox, UploadProps, UploadImage, UploadAvatar } from '../upload';
 
 // ----------------------------------------------------------------------

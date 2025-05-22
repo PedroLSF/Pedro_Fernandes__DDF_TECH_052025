@@ -6,7 +6,6 @@ import Card from '@mui/material/Card';
 import Tabs from '@mui/material/Tabs';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';

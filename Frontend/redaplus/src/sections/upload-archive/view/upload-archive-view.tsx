@@ -1,7 +1,7 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
-import { useState, useCallback } from 'react';
 
 import Button from '@mui/material/Button';
 import { Card, Stack, Container, Typography, CardContent, CardActions } from '@mui/material';
@@ -14,7 +14,6 @@ import Iconify from 'src/components/iconify';
 import { Upload } from 'src/components/upload';
 import { useSettingsContext } from 'src/components/settings';
 
-import { ICategory } from 'src/types/category';
 import { archive_types } from 'src/types/archive';
 import { FileWithMetadataId } from 'src/types/file';
 
@@ -30,7 +29,7 @@ export default function UploadArchiveView() {
   const { errorAlert } = useSweetAlert();
 
   const { enqueueSnackbar } = useSnackbar();
-  const [category, setCategory] = useState<ICategory[] | ICategory | null>(null);
+  const category = null;
   const {
     isUploading,
     handleStartUploadQueue,

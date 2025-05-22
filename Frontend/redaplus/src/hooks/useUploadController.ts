@@ -1,12 +1,10 @@
 import { useRef, useMemo, useState } from 'react';
 import { AxiosResponse, AxiosProgressEvent } from 'axios';
 
-import { useAuthContext } from 'src/auth/hooks';
-
 import { ContentWithMetadataId, UploadQueueController } from 'src/types/content';
 
+import axios from '../utils/axios';
 import { video_types } from '../types/video';
-import axios, { endpoints } from '../utils/axios';
 import {
   UploadProgress,
   trackUploadProgress,
