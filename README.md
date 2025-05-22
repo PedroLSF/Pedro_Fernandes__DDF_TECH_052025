@@ -71,7 +71,7 @@ Acesse o seu N8N local, que você subiu no passo 3, como demonstrado na imagem l
     5.1. Para essa etapa, você verá a seguinte tela:
     ![Back-N8N](/assets/Back/Back-N8N-tela-inicial-preenchida.png)
 
-    Nessa etapa, pode utilizar seus dados ou até mesmo dados fakes, acredito que vá funcionar
+    Nessa etapa, pode utilizar seus dados.
 
     5.2 Clique em Get started e depois em skip:
     ![Back-N8N-get-start](/assets/Back/Back-N8N-GetStarted.png)
