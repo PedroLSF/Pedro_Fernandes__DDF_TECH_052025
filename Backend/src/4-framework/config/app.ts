@@ -10,7 +10,7 @@ import { ValidationError } from 'class-validator';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as compression from 'compression';
+import compression from 'compression';
 import { envOrThrow } from '@shared/env';
 import { Request, Response } from 'express';
 
@@ -33,11 +33,6 @@ To use the documentation, you must authorize yourself through the following step
 2) Use the generated token to authorize requests in the Authorize.
 -----------------------------------------------------
     `,
-    )
-    .setContact(
-      'iTalents',
-      'https://www.italents.com.br/',
-      'contato@italents.com',
     )
     .addBearerAuth()
     .build();
