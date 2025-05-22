@@ -15,6 +15,7 @@ import { WinstonModule } from 'nest-winston';
     // core modules
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
       validationSchema: envValidationSchema,
     }),
     WinstonModule.forRoot(loggingWinstonSettings()),
